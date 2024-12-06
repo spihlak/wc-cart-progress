@@ -33,7 +33,7 @@ class WC_Cart_Progress_Settings {
     public function render_settings_page() {
         ?>
         <div class="wrap">
-            <h1><?php _e('WC Cart Progress Settings', 'wc-cart-progress'); ?></h1>
+            <h1><?php _e('Woocommerce Cart Progress Settings', 'wc-cart-progress'); ?></h1>
             <form method="post" action="options.php">
                 <?php
                 settings_fields('wc_cart_progress_settings_group');
