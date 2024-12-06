@@ -22,8 +22,7 @@ function wc_cart_progress_init() {
 add_action( 'plugins_loaded', 'wc_cart_progress_init' );
 
 function wc_cart_progress_bar() {
-    load_template( plugin_dir_path( __FILE__ ) . 'templates/wc-cart-progress-bar.php' );
-
+    echo __('Test', 'wc-cart-progress');
 }
 
 add_action( 'wc_cart_progress_bar', 'wc_cart_progress_bar' );
