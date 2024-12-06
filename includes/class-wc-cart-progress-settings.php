@@ -40,7 +40,7 @@ class WC_Cart_Progress_Settings {
                 settings_fields('wc_cart_progress_settings_group');
                 do_settings_sections('wc-cart-progress-settings');
                 ?>
-                <table id="steps-wrapper" colspan="0" border="0">
+                <table id="steps-wrapper" cellpadding="10" cellspacing="5" border="0">
                     <thead>
                         <tr>
                             <th align="left"><?php _e('Step', 'wc-cart-progress'); ?></th>
