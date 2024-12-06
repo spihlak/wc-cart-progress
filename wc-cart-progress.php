@@ -17,15 +17,11 @@ function wc_cart_progress_init() {
 
     load_plugin_textdomain( 'wc-cart-progress', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
+    echo __('Test', 'wc-cart-progress');
+
 }
 
 add_action( 'plugins_loaded', 'wc_cart_progress_init' );
-
-function wc_cart_progress_bar() {
-    echo __('Test', 'wc-cart-progress');
-}
-
-add_action( 'wc_cart_progress_bar', 'wc_cart_progress_bar' );
 
 function wc_cart_progress_enqueue_scripts() {
     wp_enqueue_style( 'wc-cart-progress', plugins_url( 'assets/css/wc-cart-progress.css', __FILE__ ), array(), '1.0' );
