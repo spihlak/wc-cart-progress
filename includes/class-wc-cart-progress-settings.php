@@ -39,7 +39,7 @@ class WC_Cart_Progress_Settings {
                 settings_fields('wc_cart_progress_settings_group');
                 do_settings_sections('wc-cart-progress-settings');
                 ?>
-                <table id="wc-cart-progress-steps" border="0" width="100%" style="width: 100%; max-width: 600px;">
+                <table id="wc-cart-progress-steps" border="0" width="100%" style="width: 100%; max-width: 600px; padding-bottom: 20px; border-bottom: 1px solid #e0e0e0;">
                     <thead>
                         <tr>
                             <th align="left" width="10%"><?php _e('Step', 'wc-cart-progress'); ?></th>
@@ -68,9 +68,9 @@ class WC_Cart_Progress_Settings {
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
-                    <tfoot style="margin-top: 10px;">
+                    <tfoot>
                         <tr>
-                            <td colspan="4"><button type="button" id="add-step" class="add-step button"><span class="dashicons dashicons-plus-alt2"></span> Add Step</button></td>
+                            <td colspan="4" style="padding-top: 20px;"><button type="button" id="add-step" class="add-step button"><span class="dashicons dashicons-plus-alt2"></span> Add Step</button></td>
                         </tr>
                     </tfoot>
                 </table>
