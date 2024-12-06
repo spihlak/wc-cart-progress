@@ -5,7 +5,22 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class WC_Cart_Progress_Settings {
 
     public function __construct() {
+        // Register settings and add admin menu
+        add_action('admin_menu', array($this, 'add_settings_page'));
         add_action('admin_init', array($this, 'register_settings'));
+    }
+
+    // Add settings page to the admin menu
+    public function add_settings_page() {
+        add_menu_page(
+            'WC Cart Progress Settings',
+            'WC Cart Progress',
+            'manage_options',
+            'wc_cart_progress_settings',
+            array($this, 'render_settings_page'),
+            'dashicons-cart',
+            90
+        );
     }
 
     public function register_settings() {
