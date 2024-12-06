@@ -19,7 +19,7 @@ class WC_Cart_Progress_Admin {
                     var newStep = `
                         <tr>
                             <td>
-                                <label>Step ${stepCount + 1}</label>
+                                <label>${stepCount + 1}</label>
                             </td>
                             <td><input type="number" name="wc_cart_progress_settings[steps][${stepCount}][threshold]" step="0.01" min="0" /></td>
                             <td><input type="text" name="wc_cart_progress_settings[steps][${stepCount}][label]" placeholder="Step Label" /></td>
