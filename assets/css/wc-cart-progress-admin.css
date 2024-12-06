@@ -1,3 +1,6 @@
+#wc-cart-progress-steps  .button{
+    vertical-align: middle;
+}
 .remove-step {
     background-color: #d63638;
     color: #fff;
@@ -5,13 +8,23 @@
     border-radius: 50%;
     cursor: pointer;
     padding:0;
+    line-height: 1;
 }
 .remove-step:hover {
     background-color: #b72e2e;
 }
 
-.remove-step .dashicons, .add-step .dashicons {
+.remove-step .dashicons {
     font-size: 16px;
     width: 16px;
     height: 16px;
+}
+
+.add-step .dashicons {
+    font-size: 14px;
+    line-height: 1;
+    vertical-align: middle;
+    height: 14px;
+    width: 14px;
+    margin-top: -3px;
 }
