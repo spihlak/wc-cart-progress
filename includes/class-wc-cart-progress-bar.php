@@ -9,7 +9,7 @@ class WC_Cart_Progress_Bar {
 
     public function __construct() {
         add_action('woocommerce_before_cart_contents', array($this, 'render_cart_progress_bar'));
-        add_action('woocommerce_widget_shopping_cart_before_products', array($this, 'render_cart_progress_bar'));
+        add_action('woocommerce_mini_cart_contents', array($this, 'render_mini_cart_progress_bar'));
     }
 
     public function render_cart_progress_bar() {
