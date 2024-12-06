@@ -39,13 +39,13 @@ class WC_Cart_Progress_Settings {
                 settings_fields('wc_cart_progress_settings_group');
                 do_settings_sections('wc-cart-progress-settings');
                 ?>
-                <table id="wc-cart-progress-steps" border="0">
+                <table id="wc-cart-progress-steps" border="0" width="100%" style="width: 100%; max-width: 600px; margin: 0 auto;">
                     <thead>
                         <tr>
-                            <th align="left"><?php _e('Step', 'wc-cart-progress'); ?></th>
-                            <th align="left"><?php _e('Threshold €', 'wc-cart-progress'); ?></th>
-                            <th align="left"><?php _e('Label', 'wc-cart-progress'); ?></th>
-                            <th align="left"></th>
+                            <th align="left" width="10%"><?php _e('Step', 'wc-cart-progress'); ?></th>
+                            <th align="left" width="30%"><?php _e('Threshold €', 'wc-cart-progress'); ?></th>
+                            <th align="left" width="50%"><?php _e('Label', 'wc-cart-progress'); ?></th>
+                            <th align="left" width="10%"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,15 +62,15 @@ class WC_Cart_Progress_Settings {
                             <td>
                                     <label><?php echo __($index + 1); ?></label>                                    
                             </td>
-                            <td><input type="number" name="wc_cart_progress_settings[steps][<?php echo $index; ?>][threshold]" value="<?php echo esc_attr($step['threshold']); ?>" step="0.01" min="0" /></td>
-                            <td><input type="text" name="wc_cart_progress_settings[steps][<?php echo $index; ?>][label]" value="<?php echo esc_attr($step['label']); ?>" placeholder="Step Label" /></td>
-                            <td><button type="button" class="remove-step button-delete"><span class="dashicons dashicons-no-alt"></span></button></td>
+                            <td><input type="number" width="100%" name="wc_cart_progress_settings[steps][<?php echo $index; ?>][threshold]" value="<?php echo esc_attr($step['threshold']); ?>" step="0.01" min="0" /></td>
+                            <td><input type="text" width="100%" name="wc_cart_progress_settings[steps][<?php echo $index; ?>][label]" value="<?php echo esc_attr($step['label']); ?>" placeholder="Step Label" /></td>
+                            <td><button type="button" class="remove-step"><span class="dashicons dashicons-no-alt"></span></button></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="4"><button type="button" id="add-step"><span class="dashicons dashicons-plus-alt2"></span> Add Step</button></td>
+                            <td colspan="4"><button type="button" id="add-step" class="add-step button"><span class="dashicons dashicons-plus-alt2"></span> Add Step</button></td>
                         </tr>
                     </tfoot>
                 </table>

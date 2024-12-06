@@ -1,4 +1,4 @@
-.button-delete {
+.remove-step {
     background-color: #d63638;
     color: #fff;
     border: none;
@@ -6,6 +6,12 @@
     cursor: pointer;
     padding:0;
 }
-.button-delete:hover {
+.remove-step:hover {
     background-color: #b72e2e;
+}
+
+.remove-step .dashicons, .add-step .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
 }
