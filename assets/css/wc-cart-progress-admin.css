@@ -4,6 +4,7 @@
     border: none;
     border-radius: 50%;
     cursor: pointer;
+    padding: 0;
 }
 .button-delete:hover {
     background-color: #d63638;
