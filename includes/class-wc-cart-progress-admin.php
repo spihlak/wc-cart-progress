@@ -15,20 +15,22 @@ class WC_Cart_Progress_Admin {
         <script>
             jQuery(document).ready(function($) {
                 $('#add-step').click(function () {
-                    var stepCount = $('#steps-wrapper .step-row').length;
+                    var stepCount = $('#wc-cart-progress-steps tr').length;
                     var newStep = `
-                        <div class="step-row">
-                            <label>Step ${stepCount + 1}</label>
-                            <input type="number" name="wc_cart_progress_settings[steps][${stepCount}][threshold]" step="0.01" min="0" /> €
-                            <input type="text" name="wc_cart_progress_settings[steps][${stepCount}][label]" placeholder="Step Label" />
-                            <button type="button" class="remove-step">Remove</button>
-                        </div>
+                        <tr>
+                            <td>
+                                <label>Step ${stepCount + 1}</label>
+                            </td>
+                            <td><input type="number" name="wc_cart_progress_settings[steps][${stepCount}][threshold]" step="0.01" min="0" /> €</td>
+                            <td><input type="text" name="wc_cart_progress_settings[steps][${stepCount}][label]" placeholder="Step Label" /></td>
+                            <td><button type="button" class="remove-step"><span class="dashicons dashicons-no-alt"></span></button></td>
+                        </tr>
                     `;
-                    $('#steps-wrapper').append(newStep);
+                    $('#wc-cart-progress-steps').append(newStep);
                 });
 
                 $(document).on('click', '.remove-step', function () {
-                    $(this).closest('.step-row').remove();
+                    $(this).closest('tr').remove();
                 });
             });
         </script>
