@@ -12,14 +12,13 @@ class WC_Cart_Progress_Settings {
 
     // Add settings page to the admin menu
     public function add_settings_page() {
-        add_menu_page(
+        add_submenu_page(
+            'woocommerce',
             'WC Cart Progress Settings',
-            'WC Cart Progress',
+            'Cart Progress',
             'manage_options',
-            'wc_cart_progress_settings',
-            array($this, 'render_settings_page'),
-            'dashicons-cart',
-            90
+            'wc-cart-progress-settings',
+            array($this, 'render_settings_page')
         );
     }
 
