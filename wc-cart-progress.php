@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Woocommerce Cart Progress
+Plugin Name: Woocommerce Cart Progress Bar
 Description: A plugin that adds a cart progress bar to Mini Cart and Cart Page
 Version: 1.0
 Author: Simplist Digital
