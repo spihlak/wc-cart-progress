@@ -65,6 +65,10 @@ class WC_Cart_Progress_Settings {
         <?php
     }
 
+    public function render_steps_field() {
+        
+    }
+
     public function sanitize_settings($input) {
         $sanitized_input = [];
 
