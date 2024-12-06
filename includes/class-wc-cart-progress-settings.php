@@ -39,7 +39,7 @@ class WC_Cart_Progress_Settings {
                 settings_fields('wc_cart_progress_settings_group');
                 do_settings_sections('wc-cart-progress-settings');
                 ?>
-                <table id="wc-cart-progress-steps" border="0" width="100%" style="width: 100%; max-width: 600px; margin: 0 auto;">
+                <table id="wc-cart-progress-steps" border="0" width="100%" style="width: 100%; max-width: 600px;">
                     <thead>
                         <tr>
                             <th align="left" width="10%"><?php _e('Step', 'wc-cart-progress'); ?></th>
@@ -62,9 +62,9 @@ class WC_Cart_Progress_Settings {
                             <td>
                                     <label><?php echo __($index + 1); ?></label>                                    
                             </td>
-                            <td><input type="number" width="100%" name="wc_cart_progress_settings[steps][<?php echo $index; ?>][threshold]" value="<?php echo esc_attr($step['threshold']); ?>" step="0.01" min="0" /></td>
-                            <td><input type="text" width="100%" name="wc_cart_progress_settings[steps][<?php echo $index; ?>][label]" value="<?php echo esc_attr($step['label']); ?>" placeholder="Step Label" /></td>
-                            <td><button type="button" class="remove-step"><span class="dashicons dashicons-no-alt"></span></button></td>
+                            <td><input type="number" style="width:100%;" name="wc_cart_progress_settings[steps][<?php echo $index; ?>][threshold]" value="<?php echo esc_attr($step['threshold']); ?>" step="0.01" min="0" /></td>
+                            <td><input type="text" style="width:100%;" name="wc_cart_progress_settings[steps][<?php echo $index; ?>][label]" value="<?php echo esc_attr($step['label']); ?>" placeholder="Step Label" /></td>
+                            <td align="center"><button type="button" class="remove-step"><span class="dashicons dashicons-no-alt"></span></button></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
