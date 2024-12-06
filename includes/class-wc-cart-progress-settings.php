@@ -43,10 +43,10 @@ class WC_Cart_Progress_Settings {
                 <table id="steps-wrapper" colspan="0" border="0">
                     <thead>
                         <tr>
-                            <th><?php _e('Step', 'wc-cart-progress'); ?></th>
-                            <th><?php _e('Threshold €', 'wc-cart-progress'); ?></th>
-                            <th><?php _e('Label', 'wc-cart-progress'); ?></th>
-                            <th></th>
+                            <th align="left"><?php _e('Step', 'wc-cart-progress'); ?></th>
+                            <th align="left"><?php _e('Threshold €', 'wc-cart-progress'); ?></th>
+                            <th align="left"><?php _e('Label', 'wc-cart-progress'); ?></th>
+                            <th align="left"></th>
                         </tr>
                     </thead>
                     <tbody>
