@@ -26,6 +26,8 @@ function wc_cart_progress_bar() {
 
 }
 
+add_action( 'woocommerce_before_cart_contents', 'wc_cart_progress_bar' );
+
 function wc_cart_progress_enqueue_scripts() {
     wp_enqueue_style( 'wc-cart-progress', plugins_url( 'assets/css/wc-cart-progress.css', __FILE__ ), array(), '1.0' );
 	wp_enqueue_script( 'wc-cart-progress', plugins_url( 'assets/js/wc-cart-progress.js', __FILE__ ), array( 'jquery' ), '1.0', true );
