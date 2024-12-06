@@ -15,7 +15,7 @@ class WC_Cart_Progress_Admin {
         <script>
             jQuery(document).ready(function($) {
                 $('#add-step').click(function () {
-                    var stepCount = $('#wc-cart-progress-steps tr').length;
+                    var stepCount = $('#wc-cart-progress-steps tbody tr').length;
                     var newStep = `
                         <tr>
                             <td>
@@ -26,7 +26,7 @@ class WC_Cart_Progress_Admin {
                             <td><button type="button" class="remove-step"><span class="dashicons dashicons-no-alt"></span></button></td>
                         </tr>
                     `;
-                    $('#wc-cart-progress-steps').append(newStep);
+                    $('#wc-cart-progress-steps tbody').append(newStep);
                 });
 
                 $(document).on('click', '.remove-step', function () {

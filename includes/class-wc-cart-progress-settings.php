@@ -68,11 +68,12 @@ class WC_Cart_Progress_Settings {
                             <td><button type="button" class="remove-step"><span class="dashicons dashicons-no-alt"></span></button></td>
                         </tr>
                     <?php endforeach; ?>
-
-                    <tr>
-                        <td colspan="4"><button type="button" id="add-step"><span class="dashicons dashicons-plus-alt2"></span> Add Step</button></td>
-                    </tr>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4"><button type="button" id="add-step"><span class="dashicons dashicons-plus-alt2"></span> Add Step</button></td>
+                        </tr>
+                    </tfoot>
                 </table>
                 <?php submit_button(); ?>
             </form>
