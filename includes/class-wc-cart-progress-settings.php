@@ -65,12 +65,12 @@ class WC_Cart_Progress_Settings {
                             </td>
                             <td><input type="number" name="wc_cart_progress_settings[steps][<?php echo $index; ?>][threshold]" value="<?php echo esc_attr($step['threshold']); ?>" step="0.01" min="0" /></td>
                             <td><input type="text" name="wc_cart_progress_settings[steps][<?php echo $index; ?>][label]" value="<?php echo esc_attr($step['label']); ?>" placeholder="Step Label" /></td>
-                            <td><button type="button" class="remove-step">Remove</button></td>
+                            <td><button type="button" class="remove-step"><span class="dashicons dashicons-plus-alt2"></span></button></td>
                         </tr>
                     <?php endforeach; ?>
 
                     <tr>
-                        <td colspan="4"><button type="button" id="add-step">Add Step</button></td>
+                        <td colspan="4"><button type="button" id="add-step"><span class="dashicons dashicons-plus-alt2"></span> Add Step</button></td>
                     </tr>
                     </tbody>
                 </table>
