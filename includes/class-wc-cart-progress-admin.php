@@ -2,6 +2,8 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+wp_enqueue_style('wc-cart-progress-admin-styles', plugins_url('assets/css/wc-cart-progress-admin.css', dirname(__FILE__)));
+
 class WC_Cart_Progress_Admin {
 
     public function __construct() {
