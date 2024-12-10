@@ -39,11 +39,11 @@ class WC_Cart_Progress_Settings {
                 settings_fields('wc_cart_progress_settings_group');
                 do_settings_sections('wc-cart-progress-settings');
                 ?>
-                <table id="wc-cart-progress-steps" border="0" width="100%" style="width: 100%; max-width: 600px; padding-bottom: 20px; border-bottom: 1px solid #e0e0e0;">
+                <table id="wc-cart-progress-steps" border="0" width="100%" style="width: 100%; max-width: 728px; padding-bottom: 20px; border-bottom: 1px solid #e0e0e0;">
                     <thead>
                         <tr>
                             <th align="left" width="5%"><?php _e('Step', 'wc-cart-progress'); ?></th>
-                            <th align="left" width="10%"><?php _e('Threshold €', 'wc-cart-progress'); ?></th>
+                            <th align="left" width="10%"><?php _e('Threshold', 'wc-cart-progress'); ?></th>
                             <th align="left" width="40%"><?php _e('Label', 'wc-cart-progress'); ?></th>
                             <th align="left" width="40%"><?php _e('Image URL', 'wc-cart-progress'); ?></th>
                             <th align="left" width="5%"></th>
