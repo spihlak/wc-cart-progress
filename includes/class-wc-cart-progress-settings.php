@@ -43,9 +43,9 @@ class WC_Cart_Progress_Settings {
                     <thead>
                         <tr>
                             <th align="left" width="5%"><?php _e('Step', 'wc-cart-progress'); ?></th>
-                            <th align="left" width="30%"><?php _e('Threshold €', 'wc-cart-progress'); ?></th>
-                            <th align="left" width="30%"><?php _e('Label', 'wc-cart-progress'); ?></th>
-                            <th align="left" width="30%"><?php _e('Image URL', 'wc-cart-progress'); ?></th>
+                            <th align="left" width="10%"><?php _e('Threshold €', 'wc-cart-progress'); ?></th>
+                            <th align="left" width="40%"><?php _e('Label', 'wc-cart-progress'); ?></th>
+                            <th align="left" width="40%"><?php _e('Image URL', 'wc-cart-progress'); ?></th>
                             <th align="left" width="5%"></th>
                         </tr>
                     </thead>
