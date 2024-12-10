@@ -39,6 +39,8 @@ class WC_Cart_Progress_Bar {
         ob_start();
         ?>
 
+        <?php if ($completed_steps > 0): ?>
+
         <div class="wc-cart-progress-container">
             <div class="wc-cart-progress">
 
@@ -51,7 +53,7 @@ class WC_Cart_Progress_Bar {
 
                 <div class="wc-cart-progress-bar-wrapper">
                     <div class="wc-cart-progress-bar-fill-inner">
-                        <div class="wc-cart-progress-bar-fill" style="width: <?php echo $progress; ?>%;"></div>
+                        <div class="wc-cart-progress-bar-fill"></div>
                     </div>
                 </div>
 
@@ -63,23 +65,13 @@ class WC_Cart_Progress_Bar {
 
                 <div class="wc-cart-progress-content-wrapper">
                     <p class="wc-cart-progress-content-text">
-                        <?php
-
-                        if ($completed_steps > 0) {
-                            foreach ($steps as $index => $step) {
-                                if ($index < $completed_steps) {
-                                    echo ('Spend ' . $step['threshold'] . '€ for ' . $step['label']);
-                                }
-                            }
-                        } else {
-                            echo __('Your shopping cart is empty.', 'wc-cart-progress');
-                        }
-                        ?>
                     </p>
                 </div>
 
             </div>
         </div>
+
+        <?php endif; ?>
 
         <?php
         return ob_get_clean();
