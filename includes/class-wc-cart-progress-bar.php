@@ -68,7 +68,9 @@ class WC_Cart_Progress_Bar {
 
             <div class="wc-cart-progress-content-wrapper">
                 <p class="wc-cart-progress-content-text">
-                    <?php echo $cart_subtotal; ?>
+
+                Indicator text
+                
                 </p>
             </div>
         </div>
