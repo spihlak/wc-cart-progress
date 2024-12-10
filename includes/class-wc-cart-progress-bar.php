@@ -45,7 +45,7 @@ class WC_Cart_Progress_Bar {
                 <div class="wc-cart-progress-items-wrapper">
                     <?php foreach ($steps as $index => $step): ?>
                         <div class="wc-cart-progress-item">
-                            <?php echo esc_html($step['label']); ?>
+                            Test <?php echo $index; ?>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -64,7 +64,18 @@ class WC_Cart_Progress_Bar {
 
                 <div class="wc-cart-progress-content-wrapper">
                     <p class="wc-cart-progress-content-text">
-                        <?php echo __('Your shopping cart is empty.', 'wc-cart-progress'); ?>
+                        <?php
+
+                        if ($completed_steps > 0) {
+                            foreach ($steps as $index => $step) {
+                                if ($index < $completed_steps) {
+                                    echo ('Spend ' . $step['threshold'] . '€ for ' . $step['label']);
+                                }
+                            }
+                        } else {
+                            echo __('Your shopping cart is empty.', 'wc-cart-progress');
+                        }
+                        ?>
                     </p>
                 </div>
 
