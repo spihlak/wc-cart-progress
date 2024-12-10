@@ -23,6 +23,7 @@ class WC_Cart_Progress_Admin {
                             </td>
                             <td><input type="number" style="width:100%;" name="wc_cart_progress_settings[steps][${stepCount}][threshold]" step="0.01" min="0" /></td>
                             <td><input type="text" style="width:100%;" name="wc_cart_progress_settings[steps][${stepCount}][label]" placeholder="Step Label" /></td>
+                            <td><input type="text" style="width:100%;" name="wc_cart_progress_settings[steps][${stepCount}][image_url]" placeholder="Image URL" /></td>
                             <td align="left"><button type="button" class="remove-step button-delete"><span class="dashicons dashicons-no-alt"></span></button></td>
                         </tr>
                     `;

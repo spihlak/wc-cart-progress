@@ -42,10 +42,11 @@ class WC_Cart_Progress_Settings {
                 <table id="wc-cart-progress-steps" border="0" width="100%" style="width: 100%; max-width: 600px; padding-bottom: 20px; border-bottom: 1px solid #e0e0e0;">
                     <thead>
                         <tr>
-                            <th align="left" width="10%"><?php _e('Step', 'wc-cart-progress'); ?></th>
+                            <th align="left" width="5%"><?php _e('Step', 'wc-cart-progress'); ?></th>
                             <th align="left" width="30%"><?php _e('Threshold €', 'wc-cart-progress'); ?></th>
-                            <th align="left" width="50%"><?php _e('Label', 'wc-cart-progress'); ?></th>
-                            <th align="left" width="10%"></th>
+                            <th align="left" width="30%"><?php _e('Label', 'wc-cart-progress'); ?></th>
+                            <th align="left" width="30%"><?php _e('Image URL', 'wc-cart-progress'); ?></th>
+                            <th align="left" width="5%"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,6 +65,7 @@ class WC_Cart_Progress_Settings {
                             </td>
                             <td><input type="number" style="width:100%;" name="wc_cart_progress_settings[steps][<?php echo $index; ?>][threshold]" value="<?php echo esc_attr($step['threshold']); ?>" step="0.01" min="0" /></td>
                             <td><input type="text" style="width:100%;" name="wc_cart_progress_settings[steps][<?php echo $index; ?>][label]" value="<?php echo esc_attr($step['label']); ?>" placeholder="Step Label" /></td>
+                            <td><input type="text" style="width:100%;" name="wc_cart_progress_settings[steps][<?php echo $index; ?>][image_url]" value="<?php echo esc_attr($step['image_url']); ?>" placeholder="Image URL" /></td>
                             <td align="left"><button type="button" class="remove-step"><span class="dashicons dashicons-no-alt"></span></button></td>
                         </tr>
                     <?php endforeach; ?>
