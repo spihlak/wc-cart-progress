@@ -98,6 +98,7 @@ class WC_Cart_Progress_Settings {
                 $sanitized_input['steps'][] = [
                     'threshold' => floatval($step['threshold']),
                     'label'     => sanitize_text_field($step['label']),
+                    'image_url' => sanitize_text_field($step['image_url'])
                 ];
             }
         }
