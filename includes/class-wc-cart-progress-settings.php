@@ -55,7 +55,10 @@ class WC_Cart_Progress_Settings {
                     $steps = isset($options['steps']) ? $options['steps'] : [];
                     if (empty($steps)) {
                         // Optionally, display a default step to kick things off
-                        $steps[] = ['threshold' => 59, 'label' => 'Free shipping'];
+                        $steps[] = ['threshold' => 59,
+                        'label' => 'Free shipping',
+                        'image_url' => ''];
+
                     }
 
                     foreach ($steps as $index => $step): ?>
