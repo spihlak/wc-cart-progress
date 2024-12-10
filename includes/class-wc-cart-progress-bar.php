@@ -39,14 +39,12 @@ class WC_Cart_Progress_Bar {
         ob_start();
         ?>
 
-        <?php if ($completed_steps > 0): ?>
-
         <div class="wc-cart-progress-container">
             <div class="wc-cart-progress">
 
                 <div class="wc-cart-progress-items-wrapper">
                     <?php foreach ($steps as $index => $step): ?>
-                        <div id="wc-cart-progress-item-<?php echo $index; ?>"š class="wc-cart-progress-item">
+                        <div id="wc-cart-progress-item-<?php echo $index; ?>" class="wc-cart-progress-item">
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -70,8 +68,6 @@ class WC_Cart_Progress_Bar {
 
             </div>
         </div>
-
-        <?php endif; ?>
 
         <?php
         return ob_get_clean();
