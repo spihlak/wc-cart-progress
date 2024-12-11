@@ -1,27 +1,21 @@
 <?php
-/*
-Plugin Name: Woocommerce Cart Progress Bar
-Description: A plugin that adds a cart progress bar to Mini Cart and Cart Page
-Version: 1.0
-Author: Simplist Digital
-Text Domain: wc-cart-progress
-*/
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Plugin Name: Woocommerce Cart Progress Bar
+ * Description: A plugin that adds a cart progress bar to Mini Cart and Cart Page
+ * Version: 1.0
+ * Author: Simplist Digital
+ * Text Domain: wc-cart-progress
+ */
 
-require_once plugin_dir_path(__FILE__) . 'includes/class-wc-cart-progress-settings.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-wc-cart-progress-bar.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-wc-cart-progress-admin.php';
+ if ( ! defined( 'ABSPATH' ) ) exit;
 
-function wc_cart_progress_init() {
-    new WC_Cart_Progress_Settings();
-    new WC_Cart_Progress_Bar();
-    new WC_Cart_Progress_Admin();
-}
+ add_action('wp_enqueue_scripts', function() {
+    wp_enqueue_style('wc-cart-progress-styles', plugins_url('assets/css/wc-cart-progress.css', __FILE__));
+    wp_enqueue_script('wc-cart-progress-script', plugins_url('assets/js/wc-cart-progress.js', __FILE__), array('jquery'), null, true);
+    wp_localize_script('wc-cart-progress-script', 'ajaxurl', admin_url('admin-ajax.php'));
+ });
 
-add_action('plugins_loaded', 'wc_cart_progress_init');
-
-
-?>
+ if (is_admin()) {
+    require_once plugin_dir_path(__FILE__) . 'admin/settings.php';
+ }
