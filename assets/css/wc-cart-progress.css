@@ -42,6 +42,7 @@
     border: 2px solid #d0eddb;
     background: #ffffff;
     overflow: hidden;
+    position: relative;
 }
 
 .wc-cart-progress .wc-cart-progress-item .wc-cart-progress-item-image-wrapper img {
@@ -50,6 +51,7 @@
     object-fit: cover;
     border-radius: 50%;
     opacity: 0.5;
+    position: absolute;
 }
 
 .wc-cart-progress .wc-cart-progress-bar-wrapper {
