@@ -5,9 +5,6 @@
     margin: 0 auto;
     padding:0 20px;
 }
-.wc-cart-progress {
-    padding: 1rem;
-}
 .wc-cart-progress, .wc-cart-progress .wc-cart-progress-items-wrapper {
     display: flex;
     width: 100%;
