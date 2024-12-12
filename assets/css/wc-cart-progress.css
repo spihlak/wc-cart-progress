@@ -13,6 +13,16 @@
     min-height:40px;
     position: relative;
 }
+
+.wc-cart-progress .wc-cart-progress-items-wrapper.completed {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.wc-cart-progress .wc-cart-progress-items-wrapper.completed .wc-cart-progress-item.done {
+    position: relative;
+}
+
 .wc-cart-progress .wc-cart-progress-items-wrapper .wc-cart-progress-item {
     position: absolute;
     top:5px;
