@@ -99,3 +99,6 @@
     font-size: 11px;
     padding: 0.5rem;
 }
+.wc-cart-progress-content-wrapper .wc-cart-progress-content-text {
+    margin: 0;
+}
