@@ -80,24 +80,21 @@ class WC_Cart_Progress_Bar {
         var $contentText = $('.wc-cart-progress-content-text');
 
         function updateProgress() {
-            // Reset all items
             $('.wc-cart-progress-item').removeClass('visible active done');
             
-            // Find current step and next step
             var currentStepIndex = -1;
             var activeStepIndex = 0;
             
-            // First, find which threshold we've passed
+            // Find current step
             for (var i = 0; i < steps.length; i++) {
                 if (cartSubtotal >= steps[i].threshold) {
                     currentStepIndex = i;
                 }
             }
             
-            // Then set active step as the next one
             activeStepIndex = Math.min(currentStepIndex + 1, steps.length - 1);
 
-            // Update classes for all steps
+            // Update steps visibility and status
             steps.forEach(function(step, index) {
                 var $item = $('#wc-cart-progress-item-' + index);
                 $item.addClass('visible');
@@ -109,29 +106,39 @@ class WC_Cart_Progress_Bar {
                 }
             });
 
-            // Update progress bar and text
+            // Calculate progress
+            var progress;
             if (currentStepIndex === steps.length - 1) {
-                $progressBar.css('width', '100%');
+                // All steps completed
+                progress = 100;
                 $contentText.text("You've earned all rewards!");
             } else {
                 var nextStep = steps[activeStepIndex];
-                var progress;
                 
                 if (currentStepIndex === -1) {
-                    progress = (cartSubtotal / nextStep.threshold) * 100;
-                } else {
+                    // First threshold not reached yet
+                    progress = (cartSubtotal / nextStep.threshold) * 50; // Max 50% for first threshold
+                } else if (activeStepIndex === steps.length - 1) {
+                    // Last threshold
                     var currentThreshold = steps[currentStepIndex].threshold;
                     var range = nextStep.threshold - currentThreshold;
                     var progressInRange = cartSubtotal - currentThreshold;
-                    progress = ((currentStepIndex + 1) / steps.length * 100) + 
-                              (progressInRange / range) * (100 / steps.length);
+                    var baseProgress = 50 * currentStepIndex;
+                    progress = baseProgress + (progressInRange / range) * 100; // Last step goes to 100%
+                } else {
+                    // Middle thresholds
+                    var currentThreshold = steps[currentStepIndex].threshold;
+                    var range = nextStep.threshold - currentThreshold;
+                    var progressInRange = cartSubtotal - currentThreshold;
+                    var baseProgress = 50 * currentStepIndex;
+                    progress = baseProgress + (progressInRange / range) * 50; // Middle steps max 50% each
                 }
 
-                $progressBar.css('width', Math.min(progress, 100) + '%');
-                
                 var remaining = nextStep.threshold - cartSubtotal;
                 $contentText.text('Add €' + remaining.toFixed(2) + ' more to get ' + nextStep.label);
             }
+
+            $progressBar.css('width', Math.min(progress, 100) + '%');
         }
 
         // Initial update
