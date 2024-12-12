@@ -83,29 +83,38 @@ class WC_Cart_Progress_Bar {
             // Reset all items
             $('.wc-cart-progress-item').removeClass('visible active done');
             
-            // Find current step
+            // Find current step and next step
             var currentStepIndex = -1;
-            var nextThreshold = 0;
+            var activeStepIndex = 0;
             
+            // First, find which threshold we've passed
+            for (var i = 0; i < steps.length; i++) {
+                if (cartSubtotal >= steps[i].threshold) {
+                    currentStepIndex = i;
+                }
+            }
+            
+            // Then set active step as the next one
+            activeStepIndex = Math.min(currentStepIndex + 1, steps.length - 1);
+
+            // Update classes for all steps
             steps.forEach(function(step, index) {
                 var $item = $('#wc-cart-progress-item-' + index);
                 $item.addClass('visible');
 
-                if (cartSubtotal >= step.threshold) {
+                if (index <= currentStepIndex) {
                     $item.addClass('done');
-                    currentStepIndex = index;
-                } else if (currentStepIndex === -1) {
-                    nextThreshold = step.threshold;
+                } else if (index === activeStepIndex) {
                     $item.addClass('active');
                 }
             });
 
-            // Update progress bar
+            // Update progress bar and text
             if (currentStepIndex === steps.length - 1) {
                 $progressBar.css('width', '100%');
                 $contentText.text("You've earned all rewards!");
             } else {
-                var nextStep = steps[currentStepIndex + 1] || steps[0];
+                var nextStep = steps[activeStepIndex];
                 var progress;
                 
                 if (currentStepIndex === -1) {
@@ -133,7 +142,7 @@ class WC_Cart_Progress_Bar {
             cartSubtotal = <?php echo $cart_subtotal; ?>;
             updateProgress();
         });
-            });
+    });
         </script>
 
         <?php
