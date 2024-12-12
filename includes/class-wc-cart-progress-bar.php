@@ -163,9 +163,26 @@ class WC_Cart_Progress_Bar {
                 // Initial update
                 updateProgress();
 
-                // Update on cart changes
-                $(document.body).on('updated_cart_totals updated_checkout added_to_cart removed_from_cart', function() {
+                // Listen for specific cart update events
+                $(document.body).on('updated_cart_totals', function() {
                     fetchCartSubtotal();
+                });
+
+                // For cart quantity changes
+                $('div.woocommerce').on('change', 'input.qty', function(){
+                    fetchCartSubtotal();
+                });
+
+                // For mini cart updates
+                $(document.body).on('added_to_cart removed_from_cart', function() {
+                    fetchCartSubtotal();
+                });
+
+                // Additional event for cart updates
+                $(document).ajaxComplete(function(event, xhr, settings) {
+                    if (settings.url && settings.url.includes('wc-ajax=update_order_review')) {
+                        fetchCartSubtotal();
+                    }
                 });
             });
             </script>
