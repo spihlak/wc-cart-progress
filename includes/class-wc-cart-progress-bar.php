@@ -46,7 +46,7 @@ class WC_Cart_Progress_Bar {
                     <?php foreach ($steps as $index => $step): ?>
                         <div id="wc-cart-progress-item-<?php echo $index; ?>" class="wc-cart-progress-item">
                             <div class="wc-cart-progress-item-image-wrapper">
-                                <img src="<?php echo $step['image_url']; ?>" alt="<?php echo $step['label']; ?>" width="30" height="30"/>
+                                <img src="<?php echo $step['image_url']; ?>" alt="<?php echo $step['label']; ?>" title="<?php echo $step['label']; ?>" width="30" height="30"/>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -79,6 +79,7 @@ class WC_Cart_Progress_Bar {
         var $progressBar = $('.wc-cart-progress-bar-fill');
         var $contentText = $('.wc-cart-progress-content-text');
         var $itemsWrapper = $('.wc-cart-progress-items-wrapper');
+        var $doneMarker = $('.wc-cart-progress-done-marker-wrapper');
 
         function updateProgress() {
             $('.wc-cart-progress-item').removeClass('visible active done');
@@ -114,6 +115,7 @@ class WC_Cart_Progress_Bar {
                 progress = 100;
                 $contentText.text("You've earned all rewards!");
                 $itemsWrapper.addClass('completed');
+                $doneMarker.addClass('visible');
             } else {
                 var nextStep = steps[activeStepIndex];
                 
