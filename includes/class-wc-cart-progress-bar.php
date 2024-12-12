@@ -104,7 +104,8 @@ class WC_Cart_Progress_Bar {
             if ('<?php echo $context; ?>' === 'cart') {
                 // Listen for cart updates
                 $(document.body).on('updated_cart_totals', function() {
-                    progressBar.fetch();
+                    // Reinitialize after cart update
+                    progressBar = initializeCartProgress();
                 });
             } else {
                 // Mini-cart handlers
