@@ -70,10 +70,19 @@ class WC_Cart_Progress_Bar {
                 <p class="wc-cart-progress-content-text">
 
                 Indicator text
-                
+
                 </p>
             </div>
         </div>
+
+        <script>
+            jQuery(document).ready(function($) {
+
+                var subtotal = <?php echo $cart_subtotal; ?>;
+
+                console.log(subtotal);
+            });
+        </script>
 
         <?php
         return ob_get_clean();
