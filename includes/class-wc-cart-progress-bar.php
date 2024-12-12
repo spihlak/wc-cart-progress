@@ -10,6 +10,10 @@ class WC_Cart_Progress_Bar {
     public function __construct() {
         add_action('woocommerce_before_cart_contents', array($this, 'render_cart_progress_bar'));
         add_action('woocommerce_before_mini_cart', array($this, 'render_mini_cart_progress_bar'));
+        
+        // Add AJAX action for getting cart total
+        add_action('wp_ajax_get_cart_subtotal', array($this, 'get_cart_subtotal'));
+        add_action('wp_ajax_nopriv_get_cart_subtotal', array($this, 'get_cart_subtotal'));
     }
 
     public function render_cart_progress_bar() {
@@ -18,6 +22,12 @@ class WC_Cart_Progress_Bar {
 
     public function render_mini_cart_progress_bar() {
         echo $this->get_progress_bar_html('mini-cart');
+    }
+
+    public function get_cart_subtotal() {
+        wp_send_json_success(array(
+            'subtotal' => WC()->cart->get_subtotal()
+        ));
     }
 
     private function get_progress_bar_html($context = 'cart') {
@@ -74,7 +84,11 @@ class WC_Cart_Progress_Bar {
                 var $doneMarker = $container.find('.wc-cart-progress-done-marker-wrapper');
                 var $itemsWrapper = $container.find('.wc-cart-progress-items-wrapper');
 
-                function updateProgress() {
+                function updateProgress(newSubtotal) {
+                    if (newSubtotal !== undefined) {
+                        cartSubtotal = newSubtotal;
+                    }
+                    
                     $container.find('.wc-cart-progress-item').removeClass('visible active done');
                     $doneMarker.removeClass('visible');
                     $itemsWrapper.removeClass('completed');
@@ -131,13 +145,27 @@ class WC_Cart_Progress_Bar {
                     $progressBar.css('width', Math.min(progress, 100) + '%');
                 }
 
+                function fetchCartSubtotal() {
+                    $.ajax({
+                        url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                        type: 'POST',
+                        data: {
+                            action: 'get_cart_subtotal'
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                updateProgress(response.data.subtotal);
+                            }
+                        }
+                    });
+                }
+
                 // Initial update
                 updateProgress();
 
                 // Update on cart changes
-                $(document.body).on('updated_cart_totals updated_checkout', function() {
-                    cartSubtotal = <?php echo $cart_subtotal; ?>;
-                    updateProgress();
+                $(document.body).on('updated_cart_totals updated_checkout added_to_cart removed_from_cart', function() {
+                    fetchCartSubtotal();
                 });
             });
             </script>
