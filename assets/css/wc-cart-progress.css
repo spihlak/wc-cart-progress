@@ -34,6 +34,7 @@
     z-index: 1;
     right:0;
     display: none;
+    transition: all 0.5s ease-in-out;
 }
 
 .wc-cart-progress .wc-cart-progress-items-wrapper .wc-cart-progress-item.visible {
