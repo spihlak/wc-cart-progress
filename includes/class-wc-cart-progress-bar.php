@@ -43,25 +43,27 @@ class WC_Cart_Progress_Bar {
                         </div>
                     <?php endforeach; ?>
                 </div>
+            </div>
 
-                <div class="wc-cart-progress-bar-wrapper">
-                    <div class="wc-cart-progress-bar-fill-inner">
-                        <div class="wc-cart-progress-bar-fill"></div>
-                    </div>
-                </div>
-
-                <div class="wc-cart-progress-done-marker-wrapper">
-                    <div class="wc-cart-progress-done-marker">
-                        <i class="fa-solid fa-check"></i>
-                    </div>
-                </div>
-
-                <div class="wc-cart-progress-content-wrapper">
-                    <p class="wc-cart-progress-content-text"></p>
+            <div class="wc-cart-progress-bar-wrapper">
+                <div class="wc-cart-progress-bar-fill-inner">
+                    <div class="wc-cart-progress-bar-fill"></div>
                 </div>
             </div>
 
-            <script>
+            <div class="wc-cart-progress-done-marker-wrapper">
+                <div class="wc-cart-progress-done-marker">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+            </div>
+
+            <div class="wc-cart-progress-content-wrapper">
+                <p class="wc-cart-progress-content-text"></p>
+            </div>
+                
+        </div>
+
+        <script>
             jQuery(document).ready(function($) {
                 var containerId = '<?php echo $unique_id; ?>';
                 var $container = $('[data-context="<?php echo $context; ?>"]');
@@ -139,7 +141,7 @@ class WC_Cart_Progress_Bar {
                 });
             });
             </script>
-        </div>
+
         <?php
         return ob_get_clean();
     }
