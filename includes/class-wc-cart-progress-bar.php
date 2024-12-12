@@ -3,17 +3,28 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 wp_enqueue_style('wc-cart-progress-styles', plugins_url('assets/css/wc-cart-progress.css', dirname(__FILE__)));
-wp_enqueue_script('wc-cart-progress-script', plugins_url('assets/js/wc-cart-progress.js', dirname(__FILE__)), array('jquery'), null, true);
 
 class WC_Cart_Progress_Bar {
 
     public function __construct() {
         add_action('woocommerce_before_cart_contents', array($this, 'render_cart_progress_bar'));
         add_action('woocommerce_before_mini_cart', array($this, 'render_mini_cart_progress_bar'));
-        
-        // Add AJAX action for getting cart total
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
         add_action('wp_ajax_get_cart_subtotal', array($this, 'get_cart_subtotal'));
         add_action('wp_ajax_nopriv_get_cart_subtotal', array($this, 'get_cart_subtotal'));
+    }
+
+    public function enqueue_scripts() {
+        wp_enqueue_script('wc-cart-progress-script', 
+            plugins_url('assets/js/wc-cart-progress.js', dirname(__FILE__)), 
+            array('jquery'), 
+            null, 
+            true
+        );
+
+        wp_localize_script('wc-cart-progress-script', 'wc_cart_progress_params', array(
+            'ajax_url' => admin_url('admin-ajax.php')
+        ));
     }
 
     public function render_cart_progress_bar() {
@@ -74,114 +85,32 @@ class WC_Cart_Progress_Bar {
         </div>
 
         <script>
-            jQuery(document).ready(function($) {
-                var containerId = '<?php echo $unique_id; ?>';
-                var $container = $('[data-context="<?php echo $context; ?>"]');
-                var steps = <?php echo json_encode($steps); ?>;
-                var cartSubtotal = <?php echo $cart_subtotal; ?>;
-                var $progressBar = $container.find('.wc-cart-progress-bar-fill');
-                var $contentText = $container.find('.wc-cart-progress-content-text');
-                var $doneMarker = $container.find('.wc-cart-progress-done-marker-wrapper');
-                var $itemsWrapper = $container.find('.wc-cart-progress-items-wrapper');
+        jQuery(document).ready(function($) {
+            var $container = $('[data-context="<?php echo $context; ?>"]');
+            var progressBar = initializeProgressBar(
+                $container,
+                '<?php echo $unique_id; ?>',
+                <?php echo json_encode($steps); ?>,
+                <?php echo $cart_subtotal; ?>
+            );
 
-                function updateProgress(newSubtotal) {
-                    if (newSubtotal !== undefined) {
-                        cartSubtotal = newSubtotal;
-                    }
-                    
-                    $container.find('.wc-cart-progress-item').removeClass('visible active done');
-                    $doneMarker.removeClass('visible');
-                    $itemsWrapper.removeClass('completed');
-                    
-                    var currentStepIndex = -1;
-                    var activeStepIndex = 0;
-                    var lastStepIndex = steps.length - 1;
-                    
-                    // Find current step
-                    for (var i = 0; i < steps.length; i++) {
-                        if (cartSubtotal >= steps[i].threshold) {
-                            currentStepIndex = i;
-                        }
-                    }
-                    
-                    activeStepIndex = Math.min(currentStepIndex + 1, lastStepIndex);
-
-                    // Update steps visibility and status
-                    steps.forEach(function(step, index) {
-                        var $item = $container.find('#' + containerId + '-item-' + index);
-                        $item.addClass('visible');
-
-                        if (index <= currentStepIndex) {
-                            $item.addClass('done');
-                        } else if (index === activeStepIndex) {
-                            $item.addClass('active');
-                        }
-                    });
-
-                    // Calculate progress
-                    var progress;
-                    if (currentStepIndex === lastStepIndex) {
-                        progress = 100;
-                        $contentText.text("You've earned all rewards!");
-                        $itemsWrapper.addClass('completed');
-                        $doneMarker.addClass('visible');
-                    } else {
-                        var nextStep = steps[activeStepIndex];
-                        
-                        if (currentStepIndex === -1) {
-                            progress = (cartSubtotal / nextStep.threshold) * 50;
-                        } else {
-                            var currentThreshold = steps[currentStepIndex].threshold;
-                            var range = nextStep.threshold - currentThreshold;
-                            var progressInRange = cartSubtotal - currentThreshold;
-                            var baseProgress = 50 * currentStepIndex;
-                            progress = baseProgress + (progressInRange / range) * 50;
-                        }
-
-                        var remaining = nextStep.threshold - cartSubtotal;
-                        $contentText.text('Add €' + remaining.toFixed(2) + ' more to get ' + nextStep.label);
-                    }
-
-                    $progressBar.css('width', Math.min(progress, 100) + '%');
-                }
-
-                function fetchCartSubtotal() {
-                    $.ajax({
-                        url: '<?php echo admin_url('admin-ajax.php'); ?>',
-                        type: 'POST',
-                        data: {
-                            action: 'get_cart_subtotal'
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                updateProgress(response.data.subtotal);
-                            }
-                        }
-                    });
-                }
-
-                // Initial update
-                updateProgress();
-
-                if ('<?php echo $context; ?>' === 'cart') {
-                    // Cart page specific handler
-                    $(document.body).on('updated_cart_totals', function() {
-                        setTimeout(fetchCartSubtotal, 300); // Add small delay to ensure cart totals are updated
-                    });
-                } else {
-                    // Mini-cart specific handlers
-                    $(document.body).on('added_to_cart removed_from_cart updated_cart_totals', function() {
-                        fetchCartSubtotal();
-                    });
-                }
-
-                // Common handlers for both contexts
-                $(document.body).on('wc_fragments_refreshed wc_fragments_loaded', function() {
-                    fetchCartSubtotal();
+            if ('<?php echo $context; ?>' === 'cart') {
+                $(document.body).on('updated_cart_totals', function() {
+                    setTimeout(function() {
+                        progressBar.fetch();
+                    }, 300);
                 });
-            });
-            </script>
+            } else {
+                $(document.body).on('added_to_cart removed_from_cart updated_cart_totals', function() {
+                    progressBar.fetch();
+                });
+            }
 
+            $(document.body).on('wc_fragments_refreshed wc_fragments_loaded', function() {
+                progressBar.fetch();
+            });
+        });
+        </script>
         <?php
         return ob_get_clean();
     }
