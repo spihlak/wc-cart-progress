@@ -78,14 +78,13 @@ class WC_Cart_Progress_Bar {
         var cartSubtotal = <?php echo $cart_subtotal; ?>;
         var $progressBar = $('.wc-cart-progress-bar-fill');
         var $contentText = $('.wc-cart-progress-content-text');
-        var $itemsWrapper = $('.wc-cart-progress-items-wrapper');
-        var $doneMarker = $('.wc-cart-progress-done-marker-wrapper');
 
         function updateProgress() {
             $('.wc-cart-progress-item').removeClass('visible active done');
             
             var currentStepIndex = -1;
             var activeStepIndex = 0;
+            var lastStepIndex = steps.length - 1;
             
             // Find current step
             for (var i = 0; i < steps.length; i++) {
@@ -94,7 +93,7 @@ class WC_Cart_Progress_Bar {
                 }
             }
             
-            activeStepIndex = Math.min(currentStepIndex + 1, steps.length - 1);
+            activeStepIndex = Math.min(currentStepIndex + 1, lastStepIndex);
 
             // Update steps visibility and status
             steps.forEach(function(step, index) {
@@ -110,32 +109,23 @@ class WC_Cart_Progress_Bar {
 
             // Calculate progress
             var progress;
-            if (currentStepIndex === steps.length - 1) {
-                // All steps completed
+            if (currentStepIndex === lastStepIndex) {
+                // Only 100% when last threshold is reached
                 progress = 100;
                 $contentText.text("You've earned all rewards!");
-                $itemsWrapper.addClass('completed');
-                $doneMarker.addClass('visible');
             } else {
                 var nextStep = steps[activeStepIndex];
                 
                 if (currentStepIndex === -1) {
                     // First threshold not reached yet
-                    progress = (cartSubtotal / nextStep.threshold) * 50; // Max 50% for first threshold
-                } else if (activeStepIndex === steps.length - 1) {
-                    // Last threshold
-                    var currentThreshold = steps[currentStepIndex].threshold;
-                    var range = nextStep.threshold - currentThreshold;
-                    var progressInRange = cartSubtotal - currentThreshold;
-                    var baseProgress = 50 * currentStepIndex;
-                    progress = baseProgress + (progressInRange / range) * 100; // Last step goes to 100%
+                    progress = (cartSubtotal / nextStep.threshold) * 50;
                 } else {
                     // Middle thresholds
                     var currentThreshold = steps[currentStepIndex].threshold;
                     var range = nextStep.threshold - currentThreshold;
                     var progressInRange = cartSubtotal - currentThreshold;
                     var baseProgress = 50 * currentStepIndex;
-                    progress = baseProgress + (progressInRange / range) * 50; // Middle steps max 50% each
+                    progress = baseProgress + (progressInRange / range) * 50;
                 }
 
                 var remaining = nextStep.threshold - cartSubtotal;
