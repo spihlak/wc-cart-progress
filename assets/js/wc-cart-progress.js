@@ -14,7 +14,6 @@ function initializeProgressBar($container, containerId, steps, cartSubtotal) {
         $itemsWrapper.removeClass('completed');
         
         var currentStepIndex = -1;
-        var activeStepIndex = 0;
         var lastStepIndex = steps.length - 1;
         
         // Find current step
@@ -24,20 +23,19 @@ function initializeProgressBar($container, containerId, steps, cartSubtotal) {
             }
         }
         
-        activeStepIndex = Math.min(currentStepIndex + 1, lastStepIndex);
-        var nextStepIndex = Math.min(activeStepIndex + 1, lastStepIndex);
+        var activeStepIndex = Math.min(currentStepIndex + 1, lastStepIndex);
 
         // Update steps visibility and status
         steps.forEach(function(step, index) {
             var $item = $container.find('.wc-cart-progress-item').eq(index);
             
-            // Only add visible class to:
-            // 1. Completed steps (done)
-            // 2. Current active step
-            // 3. Next step after active
-            if (index <= currentStepIndex || // done items
-                index === activeStepIndex || // active item
-                index === nextStepIndex) {   // next item
+            // Add visible class to:
+            // 1. First step if no steps are completed
+            // 2. Completed steps
+            // 3. Active step (next to be completed)
+            if (currentStepIndex === -1 && index === 0 || // First step when nothing completed
+                index <= currentStepIndex || // Completed steps
+                index === activeStepIndex) { // Active step
                 $item.addClass('visible');
             }
 
