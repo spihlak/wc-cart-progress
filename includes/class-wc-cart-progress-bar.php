@@ -163,26 +163,41 @@ class WC_Cart_Progress_Bar {
                 // Initial update
                 updateProgress();
 
-                // Listen for specific cart update events
-                $(document.body).on('updated_cart_totals', function() {
-                    fetchCartSubtotal();
-                });
+                if ('<?php echo $context; ?>' === 'cart') {
+                    // Cart page specific handlers
+                    $('form.woocommerce-cart-form').on('submit', function() {
+                        setTimeout(fetchCartSubtotal, 500);
+                    });
 
-                // For cart quantity changes
-                $('div.woocommerce').on('change', 'input.qty', function(){
-                    fetchCartSubtotal();
-                });
-
-                // For mini cart updates
-                $(document.body).on('added_to_cart removed_from_cart', function() {
-                    fetchCartSubtotal();
-                });
-
-                // Additional event for cart updates
-                $(document).ajaxComplete(function(event, xhr, settings) {
-                    if (settings.url && settings.url.includes('wc-ajax=update_order_review')) {
+                    $(document.body).on('updated_cart_totals updated_checkout', function() {
                         fetchCartSubtotal();
-                    }
+                    });
+
+                    // Watch for quantity changes
+                    $(document).on('change', '.woocommerce-cart-form input.qty', function() {
+                        var $updateCartButton = $('button[name="update_cart"]');
+                        $updateCartButton.prop('disabled', false).trigger('click');
+                    });
+
+                    // Watch for cart updates
+                    $(document).ajaxComplete(function(event, xhr, settings) {
+                        if (settings.url && 
+                            (settings.url.includes('update-cart') || 
+                             settings.url.includes('cart') || 
+                             settings.url.includes('update_order_review'))) {
+                            fetchCartSubtotal();
+                        }
+                    });
+                } else {
+                    // Mini-cart specific handlers
+                    $(document.body).on('added_to_cart removed_from_cart updated_cart_totals', function() {
+                        fetchCartSubtotal();
+                    });
+                }
+
+                // Common handlers for both contexts
+                $(document.body).on('wc_fragments_refreshed wc_fragments_loaded', function() {
+                    fetchCartSubtotal();
                 });
             });
             </script>
