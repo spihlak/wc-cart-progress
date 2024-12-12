@@ -98,6 +98,8 @@
     text-align: center;
     font-size: 11px;
     padding: 0.5rem;
+    margin-left:-20px;
+    margin-right:-20px;
 }
 .wc-cart-progress-content-wrapper .wc-cart-progress-content-text {
     margin: 0;
