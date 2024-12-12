@@ -42,6 +42,11 @@ class WC_Cart_Progress_Bar {
     }
 
     private function get_progress_bar_html($context = 'cart') {
+        // Check if cart is empty and it's mini-cart context
+        if ($context === 'mini-cart' && WC()->cart->is_empty()) {
+            return ''; // Return empty string to show nothing
+        }
+
         $options = get_option('wc_cart_progress_settings');
         $steps = isset($options['steps']) ? $options['steps'] : [];
         $cart_subtotal = WC()->cart->get_subtotal();
