@@ -2,7 +2,10 @@
     position: relative;
     width: 100%;
     margin: 0 auto;
-    padding:0 20px;
+    padding:0 20px 10px;
+}
+.wc-cart-progress {
+    padding-bottom:10px;
 }
 .wc-cart-progress, .wc-cart-progress .wc-cart-progress-items-wrapper {
     display: flex;
