@@ -76,13 +76,66 @@ class WC_Cart_Progress_Bar {
         </div>
 
         <script>
-            jQuery(document).ready(function($) {
-                var steps = <?php echo json_encode($steps); ?>;
+    jQuery(document).ready(function($) {
+        var steps = <?php echo json_encode($steps); ?>;
+        var cartSubtotal = <?php echo $cart_subtotal; ?>;
+        var $progressBar = $('.wc-cart-progress-bar-fill');
+        var $contentText = $('.wc-cart-progress-content-text');
 
-                steps.forEach(function(step, index) {
-                    $('#wc-cart-progress-item-' + index).attr('data-threshold', step.threshold);
-                });
+        function updateProgress() {
+            // Reset all items
+            $('.wc-cart-progress-item').removeClass('visible active done');
+            
+            // Find current step
+            var currentStepIndex = -1;
+            var nextThreshold = 0;
+            
+            steps.forEach(function(step, index) {
+                var $item = $('#wc-cart-progress-item-' + index);
+                $item.addClass('visible');
+
+                if (cartSubtotal >= step.threshold) {
+                    $item.addClass('done');
+                    currentStepIndex = index;
+                } else if (currentStepIndex === -1) {
+                    nextThreshold = step.threshold;
+                    $item.addClass('active');
+                }
+            });
+
+            // Update progress bar
+            if (currentStepIndex === steps.length - 1) {
+                $progressBar.css('width', '100%');
+                $contentText.text("You've earned all rewards!");
+            } else {
+                var nextStep = steps[currentStepIndex + 1] || steps[0];
+                var progress;
                 
+                if (currentStepIndex === -1) {
+                    progress = (cartSubtotal / nextStep.threshold) * 100;
+                } else {
+                    var currentThreshold = steps[currentStepIndex].threshold;
+                    var range = nextStep.threshold - currentThreshold;
+                    var progressInRange = cartSubtotal - currentThreshold;
+                    progress = ((currentStepIndex + 1) / steps.length * 100) + 
+                              (progressInRange / range) * (100 / steps.length);
+                }
+
+                $progressBar.css('width', Math.min(progress, 100) + '%');
+                
+                var remaining = nextStep.threshold - cartSubtotal;
+                $contentText.text('Add €' + remaining.toFixed(2) + ' more to get ' + nextStep.label);
+            }
+        }
+
+        // Initial update
+        updateProgress();
+
+        // Update on cart changes
+        $(document.body).on('updated_cart_totals updated_checkout', function() {
+            cartSubtotal = <?php echo $cart_subtotal; ?>;
+            updateProgress();
+        });
             });
         </script>
 
