@@ -43,11 +43,11 @@ class WC_Cart_Progress_Bar {
                         </div>
                     <?php endforeach; ?>
                 </div>
-            </div>
 
-            <div class="wc-cart-progress-bar-wrapper">
-                <div class="wc-cart-progress-bar-fill-inner">
-                    <div class="wc-cart-progress-bar-fill"></div>
+                <div class="wc-cart-progress-bar-wrapper">
+                    <div class="wc-cart-progress-bar-fill-inner">
+                        <div class="wc-cart-progress-bar-fill"></div>
+                    </div>
                 </div>
             </div>
 
