@@ -26,9 +26,9 @@ function initializeProgressBar($container, containerId, steps, cartSubtotal) {
         
         activeStepIndex = Math.min(currentStepIndex + 1, lastStepIndex);
 
-        // Update steps visibility and status
+        // Update steps visibility and status using container-scoped selectors
         steps.forEach(function(step, index) {
-            var $item = $container.find('#' + containerId + '-item-' + index);
+            var $item = $container.find('.wc-cart-progress-item').eq(index);
             $item.addClass('visible');
 
             if (index <= currentStepIndex) {
