@@ -7,7 +7,7 @@ wp_enqueue_style('wc-cart-progress-styles', plugins_url('assets/css/wc-cart-prog
 class WC_Cart_Progress_Bar {
 
     public function __construct() {
-        add_action('woocommerce_before_cart_contents', array($this, 'render_cart_progress_bar'));
+        add_action('woocommerce_before_notices', array($this, 'render_cart_progress_bar'));
         add_action('woocommerce_before_mini_cart', array($this, 'render_mini_cart_progress_bar'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
         add_action('wp_ajax_get_cart_subtotal', array($this, 'get_cart_subtotal'));
