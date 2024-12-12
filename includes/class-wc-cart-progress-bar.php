@@ -164,29 +164,9 @@ class WC_Cart_Progress_Bar {
                 updateProgress();
 
                 if ('<?php echo $context; ?>' === 'cart') {
-                    // Cart page specific handlers
-                    $('form.woocommerce-cart-form').on('submit', function() {
-                        setTimeout(fetchCartSubtotal, 500);
-                    });
-
-                    $(document.body).on('updated_cart_totals updated_checkout', function() {
+                    // Only update when cart is actually updated
+                    $(document.body).on('updated_cart_totals', function() {
                         fetchCartSubtotal();
-                    });
-
-                    // Watch for quantity changes
-                    $(document).on('change', '.woocommerce-cart-form input.qty', function() {
-                        var $updateCartButton = $('button[name="update_cart"]');
-                        $updateCartButton.prop('disabled', false).trigger('click');
-                    });
-
-                    // Watch for cart updates
-                    $(document).ajaxComplete(function(event, xhr, settings) {
-                        if (settings.url && 
-                            (settings.url.includes('update-cart') || 
-                             settings.url.includes('cart') || 
-                             settings.url.includes('update_order_review'))) {
-                            fetchCartSubtotal();
-                        }
                     });
                 } else {
                     // Mini-cart specific handlers
