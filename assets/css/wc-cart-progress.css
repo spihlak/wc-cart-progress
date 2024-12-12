@@ -10,6 +10,8 @@
 .wc-cart-progress, .wc-cart-progress .wc-cart-progress-items-wrapper {
     display: flex;
     width: 100%;
+    max-width: 400px;
+    margin:0 auto;
     min-height:40px;
     position: relative;
 }
