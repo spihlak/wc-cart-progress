@@ -100,19 +100,35 @@ class WC_Cart_Progress_Bar {
 
             // Initial initialization
             var progressBar = initializeCartProgress();
+            var $container = $('[data-context="<?php echo $context; ?>"]');
 
             if ('<?php echo $context; ?>' === 'cart') {
+                // Add transition CSS dynamically
+                $container.css({
+                    'transition': 'opacity 0.3s ease-in-out',
+                    'opacity': '1'
+                });
+
+                // Listen for cart form submission
+                $('form.woocommerce-cart-form').on('submit', function() {
+                    $container.css('opacity', '0');
+                });
+
                 // Listen for any AJAX completions
                 $(document).ajaxComplete(function(event, xhr, settings) {
                     if (settings.url && settings.url.indexOf('/?wc-ajax=update_order_review') > -1) {
-                        progressBar = initializeCartProgress();
+                        setTimeout(function() {
+                            progressBar = initializeCartProgress();
+                            $container.css('opacity', '1');
+                        }, 600);
                     }
                     
                     // Check if this is a cart update
                     if (settings.url && settings.url.indexOf('/?wc-ajax=get_refreshed_fragments') > -1) {
                         setTimeout(function() {
                             progressBar.fetch();
-                        }, 300);
+                            $container.css('opacity', '1');
+                        }, 600);
                     }
                 });
 
@@ -120,7 +136,8 @@ class WC_Cart_Progress_Bar {
                 $(document.body).on('updated_cart_totals', function() {
                     setTimeout(function() {
                         progressBar = initializeCartProgress();
-                    }, 300);
+                        $container.css('opacity', '1');
+                    }, 600);
                 });
             } else {
                 // Mini-cart handlers
