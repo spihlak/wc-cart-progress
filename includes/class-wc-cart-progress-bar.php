@@ -13,32 +13,40 @@ class WC_Cart_Progress_Bar {
     }
 
     public function render_cart_progress_bar() {
-        echo $this->get_progress_bar_html('cart');
+        echo $this->get_progress_bar_html();
     }
 
     public function render_mini_cart_progress_bar() {
-        echo $this->get_progress_bar_html('mini-cart');
+        echo $this->get_progress_bar_html();
     }
 
-    private function get_progress_bar_html($context = 'cart') {
+    private function get_progress_bar_html() {
         $options = get_option('wc_cart_progress_settings');
         $steps = isset($options['steps']) ? $options['steps'] : [];
         $cart_subtotal = WC()->cart->get_subtotal();
-        $unique_id = uniqid($context . '-');
+        $progress = 0;
+        $completed_steps = 0;
+
+        foreach ($steps as $index => $step) {
+            if ($cart_subtotal >= $step['threshold']) {
+                $completed_steps = $index + 1;
+                break;
+            }
+        }
+
+        $progress = ($completed_steps / count($steps)) * 100; 
 
         ob_start();
         ?>
-        <div class="wc-cart-progress-container" id="<?php echo esc_attr($unique_id); ?>-container">
+
+        <div class="wc-cart-progress-container">
             <div class="wc-cart-progress">
+
                 <div class="wc-cart-progress-items-wrapper">
                     <?php foreach ($steps as $index => $step): ?>
-                        <div id="<?php echo esc_attr($unique_id); ?>-item-<?php echo $index; ?>" 
-                             class="wc-cart-progress-item"
-                             data-threshold="<?php echo esc_attr($step['threshold']); ?>">
+                        <div wc-cart-progress-item-<?php echo $index; ?> class="wc-cart-progress-item">
                             <div class="wc-cart-progress-item-image-wrapper">
-                                <img src="<?php echo esc_url($step['image_url']); ?>" 
-                                     alt="<?php echo esc_attr($step['label']); ?>" 
-                                     width="30" height="30"/>
+                                <img src="<?php echo $step['image_url']; ?>" alt="<?php echo $step['label']; ?>" width="30" height="30"/>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -50,55 +58,84 @@ class WC_Cart_Progress_Bar {
                     </div>
                 </div>
 
-                <div class="wc-cart-progress-content-wrapper">
-                    <p class="wc-cart-progress-content-text"></p>
+            </div>
+
+            <div class="wc-cart-progress-done-marker-wrapper">
+                <div class="wc-cart-progress-done-marker">
+                    <i class="fa-solid fa-check"></i>
                 </div>
+            </div>
+
+            <div class="wc-cart-progress-content-wrapper">
+                <p class="wc-cart-progress-content-text">
+                </p>
             </div>
         </div>
 
         <script>
-        jQuery(document).ready(function($) {
-            var containerId = '<?php echo $unique_id; ?>';
-            var $container = $('#' + containerId + '-container');
-            var steps = <?php echo json_encode($steps); ?>;
-            var cartSubtotal = <?php echo $cart_subtotal; ?>;
-            var $progressBar = $container.find('.wc-cart-progress-bar-fill');
-            var $contentText = $container.find('.wc-cart-progress-content-text');
+    jQuery(document).ready(function($) {
+        var steps = <?php echo json_encode($steps); ?>;
+        var cartSubtotal = <?php echo $cart_subtotal; ?>;
+        var $progressBar = $('.wc-cart-progress-bar-fill');
+        var $contentText = $('.wc-cart-progress-content-text');
 
-            function updateProgress() {
-                // Reset all items in this container only
-                $container.find('.wc-cart-progress-item').removeClass('visible active done');
-                
-                var currentStepIndex = -1;
-                var nextThreshold = 0;
-                
-                steps.forEach(function(step, index) {
-                    var $item = $('#' + containerId + '-item-' + index);
-                    $item.addClass('visible');
+        function updateProgress() {
+            // Reset all items
+            $('.wc-cart-progress-item').removeClass('visible active done');
+            
+            // Find current step
+            var currentStepIndex = -1;
+            var nextThreshold = 0;
+            
+            steps.forEach(function(step, index) {
+                var $item = $('#wc-cart-progress-item-' + index);
+                $item.addClass('visible');
 
-                    if (cartSubtotal >= step.threshold) {
-                        $item.addClass('done');
-                        currentStepIndex = index;
-                    } else if (currentStepIndex === -1) {
-                        nextThreshold = step.threshold;
-                        $item.addClass('active');
-                    }
-                });
-
-                // Rest of your update logic...
-                // [Previous progress calculation code remains the same]
-            }
-
-            // Initial update
-            updateProgress();
-
-            // Update on cart changes
-            $(document.body).on('updated_cart_totals updated_checkout', function() {
-                cartSubtotal = <?php echo $cart_subtotal; ?>;
-                updateProgress();
+                if (cartSubtotal >= step.threshold) {
+                    $item.addClass('done');
+                    currentStepIndex = index;
+                } else if (currentStepIndex === -1) {
+                    nextThreshold = step.threshold;
+                    $item.addClass('active');
+                }
             });
+
+            // Update progress bar
+            if (currentStepIndex === steps.length - 1) {
+                $progressBar.css('width', '100%');
+                $contentText.text("You've earned all rewards!");
+            } else {
+                var nextStep = steps[currentStepIndex + 1] || steps[0];
+                var progress;
+                
+                if (currentStepIndex === -1) {
+                    progress = (cartSubtotal / nextStep.threshold) * 100;
+                } else {
+                    var currentThreshold = steps[currentStepIndex].threshold;
+                    var range = nextStep.threshold - currentThreshold;
+                    var progressInRange = cartSubtotal - currentThreshold;
+                    progress = ((currentStepIndex + 1) / steps.length * 100) + 
+                              (progressInRange / range) * (100 / steps.length);
+                }
+
+                $progressBar.css('width', Math.min(progress, 100) + '%');
+                
+                var remaining = nextStep.threshold - cartSubtotal;
+                $contentText.text('Add €' + remaining.toFixed(2) + ' more to get ' + nextStep.label);
+            }
+        }
+
+        // Initial update
+        updateProgress();
+
+        // Update on cart changes
+        $(document.body).on('updated_cart_totals updated_checkout', function() {
+            cartSubtotal = <?php echo $cart_subtotal; ?>;
+            updateProgress();
         });
+            });
         </script>
+
         <?php
         return ob_get_clean();
     }
