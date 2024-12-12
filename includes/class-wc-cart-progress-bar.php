@@ -100,44 +100,11 @@ class WC_Cart_Progress_Bar {
 
             // Initial initialization
             var progressBar = initializeCartProgress();
-            var $container = $('[data-context="<?php echo $context; ?>"]');
 
             if ('<?php echo $context; ?>' === 'cart') {
-                // Add transition CSS dynamically
-                $container.css({
-                    'transition': 'opacity 0.3s ease-in-out',
-                    'opacity': '1'
-                });
-
-                // Listen for cart form submission
-                $('form.woocommerce-cart-form').on('submit', function() {
-                    $container.css('opacity', '0');
-                });
-
-                // Listen for any AJAX completions
-                $(document).ajaxComplete(function(event, xhr, settings) {
-                    if (settings.url && settings.url.indexOf('/?wc-ajax=update_order_review') > -1) {
-                        setTimeout(function() {
-                            progressBar = initializeCartProgress();
-                            $container.css('opacity', '1');
-                        }, 600);
-                    }
-                    
-                    // Check if this is a cart update
-                    if (settings.url && settings.url.indexOf('/?wc-ajax=get_refreshed_fragments') > -1) {
-                        setTimeout(function() {
-                            progressBar.fetch();
-                            $container.css('opacity', '1');
-                        }, 600);
-                    }
-                });
-
-                // Also listen for the standard WooCommerce event
+                // Listen for cart updates
                 $(document.body).on('updated_cart_totals', function() {
-                    setTimeout(function() {
-                        progressBar = initializeCartProgress();
-                        $container.css('opacity', '1');
-                    }, 600);
+                    progressBar.fetch();
                 });
             } else {
                 // Mini-cart handlers
