@@ -86,26 +86,50 @@ class WC_Cart_Progress_Bar {
 
         <script>
         jQuery(document).ready(function($) {
-            var $container = $('[data-context="<?php echo $context; ?>"]');
-            var progressBar = initializeProgressBar(
-                $container,
-                '<?php echo $unique_id; ?>',
-                <?php echo json_encode($steps); ?>,
-                <?php echo $cart_subtotal; ?>
-            );
+            function initializeCartProgress() {
+                var $container = $('[data-context="<?php echo $context; ?>"]');
+                var progressBar = initializeProgressBar(
+                    $container,
+                    '<?php echo $unique_id; ?>',
+                    <?php echo json_encode($steps); ?>,
+                    <?php echo $cart_subtotal; ?>
+                );
+
+                return progressBar;
+            }
+
+            // Initial initialization
+            var progressBar = initializeCartProgress();
 
             if ('<?php echo $context; ?>' === 'cart') {
+                // Listen for any AJAX completions
+                $(document).ajaxComplete(function(event, xhr, settings) {
+                    if (settings.url && settings.url.indexOf('/?wc-ajax=update_order_review') > -1) {
+                        progressBar = initializeCartProgress();
+                    }
+                    
+                    // Check if this is a cart update
+                    if (settings.url && settings.url.indexOf('/?wc-ajax=get_refreshed_fragments') > -1) {
+                        setTimeout(function() {
+                            progressBar.fetch();
+                        }, 300);
+                    }
+                });
+
+                // Also listen for the standard WooCommerce event
                 $(document.body).on('updated_cart_totals', function() {
                     setTimeout(function() {
-                        progressBar.fetch();
+                        progressBar = initializeCartProgress();
                     }, 300);
                 });
             } else {
+                // Mini-cart handlers
                 $(document.body).on('added_to_cart removed_from_cart updated_cart_totals', function() {
                     progressBar.fetch();
                 });
             }
 
+            // Common handlers
             $(document.body).on('wc_fragments_refreshed wc_fragments_loaded', function() {
                 progressBar.fetch();
             });
