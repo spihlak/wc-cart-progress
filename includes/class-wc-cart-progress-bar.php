@@ -44,7 +44,7 @@ class WC_Cart_Progress_Bar {
 
                 <div class="wc-cart-progress-items-wrapper">
                     <?php foreach ($steps as $index => $step): ?>
-                        <div wc-cart-progress-item-<?php echo $index; ?> class="wc-cart-progress-item">
+                        <div id="wc-cart-progress-item-<?php echo $index; ?>" class="wc-cart-progress-item">
                             <div class="wc-cart-progress-item-image-wrapper">
                                 <img src="<?php echo $step['image_url']; ?>" alt="<?php echo $step['label']; ?>" width="30" height="30"/>
                             </div>
