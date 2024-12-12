@@ -77,10 +77,12 @@ class WC_Cart_Progress_Bar {
 
         <script>
             jQuery(document).ready(function($) {
+                var steps = <?php echo json_encode($steps); ?>;
 
-                var subtotal = <?php echo $cart_subtotal; ?>;
-                var progress = <?php echo $progress; ?>;
-                console.log(subtotal, progress);
+                steps.forEach(function(step, index) {
+                    $('#wc-cart-progress-item-' + index).attr('data-threshold', step.threshold);
+                });
+                
             });
         </script>
 
