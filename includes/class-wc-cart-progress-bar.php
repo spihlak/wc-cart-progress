@@ -105,12 +105,20 @@ class WC_Cart_Progress_Bar {
 
             // Initial initialization
             var progressBar = initializeCartProgress();
+            var $container = $('[data-context="<?php echo $context; ?>"]');
 
             if ('<?php echo $context; ?>' === 'cart') {
+                // Hide container before cart update
+                $(document.body).on('submit', 'form.woocommerce-cart-form', function() {
+                    $container.css('opacity', '0');
+                });
+
                 // Listen for cart updates
                 $(document.body).on('updated_cart_totals', function() {
-                    // Reinitialize after cart update
-                    progressBar = initializeCartProgress();
+                    setTimeout(function() {
+                        progressBar = initializeCartProgress();
+                        $container.css('opacity', '1');
+                    }, 50);
                 });
             } else {
                 // Mini-cart handlers
