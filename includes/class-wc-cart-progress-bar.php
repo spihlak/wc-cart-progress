@@ -110,9 +110,7 @@ class WC_Cart_Progress_Bar {
                     
                     // Check if this is a cart update
                     if (settings.url && settings.url.indexOf('/?wc-ajax=get_refreshed_fragments') > -1) {
-                        setTimeout(function() {
-                            progressBar.fetch();
-                        }, 300);
+                        progressBar.fetch();
                     }
                 });
 
