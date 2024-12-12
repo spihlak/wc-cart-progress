@@ -76,7 +76,7 @@
     border-radius: 4px;
     transition: width 0.5s ease-in-out;
 }
-.wc-cart-progress .wc-cart-progress-done-marker-wrapper {
+.wc-cart-progress-done-marker-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -89,10 +89,10 @@
     margin-bottom: -20px;
 }
 
-.wc-cart-progress .wc-cart-progress-done-marker-wrapper .wc-cart-progress-done-marker {
+.wc-cart-progress-done-marker-wrapper .wc-cart-progress-done-marker {
     margin-top: -7px;
 }
-.wc-cart-progress .wc-cart-progress-content-wrapper {
+.wc-cart-progress-content-wrapper {
     background-color: #d0eddb;
     color: #0e9d5b;
     text-align: center;
