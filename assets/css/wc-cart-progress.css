@@ -31,9 +31,19 @@
     right:0;
 }
 
+.wc-cart-progress .wc-cart-progress-items-wrapper .wc-cart-progress-item.done {
+    display: block;
+    left:0;
+    right:auto;
+}
+
 .wc-cart-progress .wc-cart-progress-items-wrapper .wc-cart-progress-item.active .wc-cart-progress-item-image-wrapper {
     width: 40px;
     height: 40px;
+}
+
+.wc-cart-progress .wc-cart-progress-items-wrapper .wc-cart-progress-item.done .wc-cart-progress-item-image-wrapper {
+    border-color: #0e9d5b;
 }
 
 .wc-cart-progress .wc-cart-progress-item .wc-cart-progress-item-image-wrapper {
