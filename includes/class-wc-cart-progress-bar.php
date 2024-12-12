@@ -78,9 +78,13 @@ class WC_Cart_Progress_Bar {
         var cartSubtotal = <?php echo $cart_subtotal; ?>;
         var $progressBar = $('.wc-cart-progress-bar-fill');
         var $contentText = $('.wc-cart-progress-content-text');
+        var $doneMarker = $('.wc-cart-progress-done-marker-wrapper');
+        var $itemsWrapper = $('.wc-cart-progress-items-wrapper');
 
         function updateProgress() {
             $('.wc-cart-progress-item').removeClass('visible active done');
+            $doneMarker.removeClass('visible');
+            $itemsWrapper.removeClass('completed');
             
             var currentStepIndex = -1;
             var activeStepIndex = 0;
@@ -113,6 +117,8 @@ class WC_Cart_Progress_Bar {
                 // Only 100% when last threshold is reached
                 progress = 100;
                 $contentText.text("You've earned all rewards!");
+                $itemsWrapper.addClass('completed');
+                $doneMarker.addClass('visible');
             } else {
                 var nextStep = steps[activeStepIndex];
                 
