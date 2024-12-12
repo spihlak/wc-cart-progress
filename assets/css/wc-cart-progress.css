@@ -163,3 +163,6 @@
 .wc-cart-progress-content-wrapper .wc-cart-progress-content-text {
     margin: 0;
 }
+.wc-cart-progress-container[data-context="cart"] {
+    transition: opacity 0.2s ease-out;
+}
