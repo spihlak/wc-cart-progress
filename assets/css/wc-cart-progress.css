@@ -31,6 +31,11 @@
     right:0;
 }
 
+.wc-cart-progress .wc-cart-progress-items-wrapper .wc-cart-progress-item.active:last-child {
+    left:auto;
+    right:0;
+}
+
 .wc-cart-progress .wc-cart-progress-items-wrapper .wc-cart-progress-item.done {
     display: block;
     left:0;
