@@ -108,7 +108,7 @@ class WC_Cart_Progress_Bar {
 
                     // Update steps visibility and status
                     steps.forEach(function(step, index) {
-                        var $item = $('#' + containerId + '-item-' + index);
+                        var $item = $container.find('#' + containerId + '-item-' + index);
                         $item.addClass('visible');
 
                         if (index <= currentStepIndex) {
@@ -164,9 +164,9 @@ class WC_Cart_Progress_Bar {
                 updateProgress();
 
                 if ('<?php echo $context; ?>' === 'cart') {
-                    // Only update when cart is actually updated
+                    // Cart page specific handler
                     $(document.body).on('updated_cart_totals', function() {
-                        fetchCartSubtotal();
+                        setTimeout(fetchCartSubtotal, 300); // Add small delay to ensure cart totals are updated
                     });
                 } else {
                     // Mini-cart specific handlers
