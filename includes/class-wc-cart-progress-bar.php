@@ -108,6 +108,9 @@ class WC_Cart_Progress_Bar {
             var $container = $('[data-context="<?php echo $context; ?>"]');
 
             if ('<?php echo $context; ?>' === 'cart') {
+                // Add transition CSS
+                $container.css('transition', 'opacity 0.3s ease');
+                
                 // Hide container before cart update
                 $(document.body).on('submit', 'form.woocommerce-cart-form', function() {
                     $container.css('opacity', '0');
@@ -118,7 +121,7 @@ class WC_Cart_Progress_Bar {
                     setTimeout(function() {
                         progressBar = initializeCartProgress();
                         $container.css('opacity', '1');
-                    }, 500);
+                    }, 300);
                 });
             } else {
                 // Mini-cart handlers
