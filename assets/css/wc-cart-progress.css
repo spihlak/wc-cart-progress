@@ -166,3 +166,6 @@
 .wc-cart-progress-container[data-context="cart"] {
     transition: opacity 0.2s ease-out;
 }
+.body.woocommerce-cart .elementor-menu-cart__toggle_button {
+    pointer-events: none;
+}
