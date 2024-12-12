@@ -118,7 +118,7 @@ class WC_Cart_Progress_Bar {
                     setTimeout(function() {
                         progressBar = initializeCartProgress();
                         $container.css('opacity', '1');
-                    }, 50);
+                    }, 300);
                 });
             } else {
                 // Mini-cart handlers
