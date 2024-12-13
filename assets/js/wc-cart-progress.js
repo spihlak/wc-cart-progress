@@ -12,6 +12,7 @@ function initializeProgressBar($container, containerId, steps, cartSubtotal) {
         $container.find('.wc-cart-progress-item').removeClass('visible active done');
         $doneMarker.removeClass('visible');
         $itemsWrapper.removeClass('completed');
+        $itemsWrapper.removeClass('single-step');
         
         var currentStepIndex = -1;
         var activeStepIndex = 0;
@@ -55,12 +56,12 @@ function initializeProgressBar($container, containerId, steps, cartSubtotal) {
             progress = 100;
             $contentText.text("Congratulations! You have earned all gifts!");
             $itemsWrapper.addClass('completed');
-            $doneMarker.addClass('visible');
         } else if (steps.length === 1) {
             // Single step case - fill from 0 to 100%
             progress = (cartSubtotal / steps[0].threshold) * 100;
             var remaining = steps[0].threshold - cartSubtotal;
             $contentText.text('Add €' + remaining.toFixed(2) + ' more to get ' + steps[0].label);
+            $itemsWrapper.addClass('single-step');
         } else if (activeStepIndex === lastStepIndex) {
             // Last step is active (multi-step case)
             var currentThreshold = steps[currentStepIndex].threshold;

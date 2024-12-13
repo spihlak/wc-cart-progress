@@ -68,6 +68,10 @@
     align-items: center;
 }
 
+.wc-cart-progress .wc-cart-progress-items-wrapper.single-step {
+    justify-content: center;
+}
+
 .wc-cart-progress .wc-cart-progress-items-wrapper.completed .wc-cart-progress-item.done {
     position: relative;
     top:0;
