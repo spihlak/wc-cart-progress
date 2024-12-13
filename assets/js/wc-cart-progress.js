@@ -53,7 +53,7 @@ function initializeProgressBar($container, containerId, steps, cartSubtotal) {
         if (currentStepIndex === lastStepIndex) {
             // Last step is completed
             progress = 100;
-            $contentText.text("You've earned all rewards!");
+            $contentText.text("Congratulations! You have earned all gifts!");
             $itemsWrapper.addClass('completed');
             $doneMarker.addClass('visible');
         } else if (activeStepIndex === lastStepIndex) {
@@ -64,6 +64,9 @@ function initializeProgressBar($container, containerId, steps, cartSubtotal) {
             var progressInRange = cartSubtotal - currentThreshold;
             var baseProgress = 50;
             progress = baseProgress + (progressInRange / range) * 50;
+            
+            var remaining = steps[activeStepIndex].threshold - cartSubtotal;
+            $contentText.text('Add €' + remaining.toFixed(2) + ' more to get ' + steps[activeStepIndex].label);
         } else {
             // Any other step
             if (currentStepIndex === -1) {
@@ -77,10 +80,10 @@ function initializeProgressBar($container, containerId, steps, cartSubtotal) {
                 var progressInRange = cartSubtotal - currentThreshold;
                 progress = (progressInRange / range) * 50;
             }
+            
+            var remaining = steps[activeStepIndex].threshold - cartSubtotal;
+            $contentText.text('Add €' + remaining.toFixed(2) + ' more to get ' + steps[activeStepIndex].label);
         }
-
-        var remaining = steps[activeStepIndex].threshold - cartSubtotal;
-        $contentText.text('Add €' + remaining.toFixed(2) + ' more to get ' + steps[activeStepIndex].label);
         
         $progressBar.css('width', Math.min(progress, 100) + '%');
     }
