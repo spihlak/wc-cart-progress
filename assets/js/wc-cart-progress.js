@@ -51,27 +51,37 @@ function initializeProgressBar($container, containerId, steps, cartSubtotal) {
         // Calculate progress
         var progress;
         if (currentStepIndex === lastStepIndex) {
+            // Last step is completed
             progress = 100;
             $contentText.text("You've earned all rewards!");
             $itemsWrapper.addClass('completed');
             $doneMarker.addClass('visible');
+        } else if (activeStepIndex === lastStepIndex) {
+            // Last step is active
+            var currentThreshold = steps[currentStepIndex].threshold;
+            var finalThreshold = steps[lastStepIndex].threshold;
+            var range = finalThreshold - currentThreshold;
+            var progressInRange = cartSubtotal - currentThreshold;
+            var baseProgress = 50;
+            progress = baseProgress + (progressInRange / range) * 50;
         } else {
-            var nextStep = steps[activeStepIndex];
-            
+            // Any other step
             if (currentStepIndex === -1) {
-                progress = (cartSubtotal / nextStep.threshold) * 50;
+                // First step not completed yet
+                progress = (cartSubtotal / steps[0].threshold) * 50;
             } else {
+                // Between steps
                 var currentThreshold = steps[currentStepIndex].threshold;
-                var range = nextStep.threshold - currentThreshold;
+                var nextThreshold = steps[activeStepIndex].threshold;
+                var range = nextThreshold - currentThreshold;
                 var progressInRange = cartSubtotal - currentThreshold;
-                var baseProgress = 50 * currentStepIndex;
-                progress = baseProgress + (progressInRange / range) * 50;
+                progress = (progressInRange / range) * 50;
             }
-
-            var remaining = nextStep.threshold - cartSubtotal;
-            $contentText.text('Add €' + remaining.toFixed(2) + ' more to get ' + nextStep.label);
         }
 
+        var remaining = steps[activeStepIndex].threshold - cartSubtotal;
+        $contentText.text('Add €' + remaining.toFixed(2) + ' more to get ' + steps[activeStepIndex].label);
+        
         $progressBar.css('width', Math.min(progress, 100) + '%');
     }
 
