@@ -56,8 +56,13 @@ function initializeProgressBar($container, containerId, steps, cartSubtotal) {
             $contentText.text("Congratulations! You have earned all gifts!");
             $itemsWrapper.addClass('completed');
             $doneMarker.addClass('visible');
+        } else if (steps.length === 1) {
+            // Single step case - fill from 0 to 100%
+            progress = (cartSubtotal / steps[0].threshold) * 100;
+            var remaining = steps[0].threshold - cartSubtotal;
+            $contentText.text('Add €' + remaining.toFixed(2) + ' more to get ' + steps[0].label);
         } else if (activeStepIndex === lastStepIndex) {
-            // Last step is active
+            // Last step is active (multi-step case)
             var currentThreshold = steps[currentStepIndex].threshold;
             var finalThreshold = steps[lastStepIndex].threshold;
             var range = finalThreshold - currentThreshold;
@@ -68,7 +73,7 @@ function initializeProgressBar($container, containerId, steps, cartSubtotal) {
             var remaining = steps[activeStepIndex].threshold - cartSubtotal;
             $contentText.text('Add €' + remaining.toFixed(2) + ' more to get ' + steps[activeStepIndex].label);
         } else {
-            // Any other step
+            // Any other step (multi-step case)
             if (currentStepIndex === -1) {
                 // First step not completed yet
                 progress = (cartSubtotal / steps[0].threshold) * 50;
