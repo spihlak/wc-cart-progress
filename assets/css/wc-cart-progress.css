@@ -78,6 +78,9 @@
     left:0;
     right:auto;
 }
+.wc-cart-progress .wc-cart-progress-items-wrapper.completed:has(.wc-cart-progress-item.done:only-child) {
+    justify-content: center;
+}
 
 .wc-cart-progress .wc-cart-progress-items-wrapper .wc-cart-progress-item.active .wc-cart-progress-item-image-wrapper {
     width: 40px;
