@@ -1,63 +1,100 @@
-function updateProgress(newSubtotal) {
-    if (typeof newSubtotal === 'number') {
-        cartSubtotal = newSubtotal;
-    }
-    
-    const $items = $container.find('.wc-cart-progress-item');
-    $items.removeClass('visible active done');
-    $doneMarker.removeClass('visible');
-    $itemsWrapper.removeClass('completed');
+function initializeProgressBar($container, containerId, steps, cartSubtotal) {
+    var $progressBar = $container.find('.wc-cart-progress-bar-fill');
+    var $contentText = $container.find('.wc-cart-progress-content-text');
+    var $doneMarker = $container.find('.wc-cart-progress-done-marker-wrapper');
+    var $itemsWrapper = $container.find('.wc-cart-progress-items-wrapper');
 
-    if (!steps || steps.length === 0) {
-        $progressBar.css('width', '0%');
-        $contentText.text('No rewards available.');
-        return;
-    }
-
-    let currentStepIndex = -1;
-    const lastStepIndex = steps.length - 1;
-
-    steps.forEach((step, index) => {
-        if (cartSubtotal >= step.threshold) {
-            currentStepIndex = index;
+    function updateProgress(newSubtotal) {
+        if (newSubtotal !== undefined) {
+            cartSubtotal = newSubtotal;
         }
-    });
-
-    const activeStepIndex = Math.min(currentStepIndex + 1, lastStepIndex);
-    const nextStepIndex = Math.min(activeStepIndex + 1, lastStepIndex);
-
-    steps.forEach((step, index) => {
-        const $item = $items.eq(index);
-        if (index <= currentStepIndex || index === activeStepIndex || index === nextStepIndex) {
-            $item.addClass('visible');
+        
+        $container.find('.wc-cart-progress-item').removeClass('visible active done');
+        $doneMarker.removeClass('visible');
+        $itemsWrapper.removeClass('completed');
+        
+        var currentStepIndex = -1;
+        var activeStepIndex = 0;
+        var lastStepIndex = steps.length - 1;
+        
+        // Find current step
+        for (var i = 0; i < steps.length; i++) {
+            if (cartSubtotal >= steps[i].threshold) {
+                currentStepIndex = i;
+            }
         }
-        if (index <= currentStepIndex) {
-            $item.addClass('done');
-        } else if (index === activeStepIndex) {
-            $item.addClass('active');
-        }
-    });
+        
+        activeStepIndex = Math.min(currentStepIndex + 1, lastStepIndex);
+        var nextStepIndex = Math.min(activeStepIndex + 1, lastStepIndex);
 
-    let progress = 0;
-    if (currentStepIndex === lastStepIndex) {
-        progress = 100;
-        $contentText.text("You've earned all rewards!");
-        $itemsWrapper.addClass('completed');
-        $doneMarker.addClass('visible');
-    } else {
-        const nextStep = steps[activeStepIndex];
-        const remaining = nextStep.threshold - cartSubtotal;
+        // Update steps visibility and status
+        steps.forEach(function(step, index) {
+            var $item = $container.find('.wc-cart-progress-item').eq(index);
+            
+            // Only add visible class to:
+            // 1. Completed steps (done)
+            // 2. Current active step
+            // 3. Next step after active
+            if (index <= currentStepIndex || // done items
+                index === activeStepIndex || // active item
+                index === nextStepIndex) {   // next item
+                $item.addClass('visible');
+            }
 
-        if (currentStepIndex === -1) {
-            progress = (cartSubtotal / nextStep.threshold) * 50;
+            if (index <= currentStepIndex) {
+                $item.addClass('done');
+            } else if (index === activeStepIndex) {
+                $item.addClass('active');
+            }
+        });
+
+        // Calculate progress
+        var progress;
+        if (currentStepIndex === lastStepIndex) {
+            progress = 100;
+            $contentText.text("You've earned all rewards!");
+            $itemsWrapper.addClass('completed');
+            $doneMarker.addClass('visible');
         } else {
-            const currentThreshold = steps[currentStepIndex].threshold;
-            const range = nextStep.threshold - currentThreshold;
-            progress = 50 * currentStepIndex + ((cartSubtotal - currentThreshold) / range) * 50;
+            var nextStep = steps[activeStepIndex];
+            
+            if (currentStepIndex === -1) {
+                progress = (cartSubtotal / nextStep.threshold) * 50;
+            } else {
+                var currentThreshold = steps[currentStepIndex].threshold;
+                var range = nextStep.threshold - currentThreshold;
+                var progressInRange = cartSubtotal - currentThreshold;
+                var baseProgress = 50 * currentStepIndex;
+                progress = baseProgress + (progressInRange / range) * 50;
+            }
+
+            var remaining = nextStep.threshold - cartSubtotal;
+            $contentText.text('Add €' + remaining.toFixed(2) + ' more to get ' + nextStep.label);
         }
 
-        $contentText.text(`Add €${remaining.toFixed(2)} more to get ${nextStep.label}`);
+        $progressBar.css('width', Math.min(progress, 100) + '%');
     }
 
-    $progressBar.css('width', Math.min(progress, 100) + '%');
+    function fetchCartSubtotal() {
+        jQuery.ajax({
+            url: wc_cart_progress_params.ajax_url,
+            type: 'POST',
+            data: {
+                action: 'get_cart_subtotal'
+            },
+            success: function(response) {
+                if (response.success) {
+                    updateProgress(response.data.subtotal);
+                }
+            }
+        });
+    }
+
+    // Initial update
+    updateProgress();
+
+    return {
+        update: updateProgress,
+        fetch: fetchCartSubtotal
+    };
 }
