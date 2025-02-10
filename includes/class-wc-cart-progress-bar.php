@@ -61,10 +61,20 @@ class WC_Cart_Progress_Bar {
                         <div id="<?php echo esc_attr($unique_id); ?>-item-<?php echo $index; ?>" 
                              class="wc-cart-progress-item">
                             <div class="wc-cart-progress-item-image-wrapper">
+                            <?php if ($step['product_url']): ?>
+                                <a href="<?php echo esc_url($step['product_url']); ?>" target="_blank"> 
+                                    <img src="<?php echo esc_url($step['image_url']); ?>" 
+                                         alt="<?php echo esc_attr($step['label']); ?>" 
+                                         title="<?php echo esc_attr($step['label']); ?>" 
+                                         width="30" height="30"/>
+                                </a>
+                            <?php else: ?>
                                 <img src="<?php echo esc_url($step['image_url']); ?>" 
-                                     alt="<?php echo esc_attr($step['label']); ?>" 
-                                     title="<?php echo esc_attr($step['label']); ?>" 
-                                     width="30" height="30"/>
+                                         alt="<?php echo esc_attr($step['label']); ?>" 
+                                         title="<?php echo esc_attr($step['label']); ?>" 
+                                         width="30" height="30"/>
+                            <?php endif; ?>
+
                             </div>
                         </div>
                     <?php endforeach; ?>

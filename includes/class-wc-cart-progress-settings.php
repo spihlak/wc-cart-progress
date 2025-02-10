@@ -39,13 +39,14 @@ class WC_Cart_Progress_Settings {
                 settings_fields('wc_cart_progress_settings_group');
                 do_settings_sections('wc-cart-progress-settings');
                 ?>
-                <table id="wc-cart-progress-steps" border="0" width="100%" style="width: 100%; max-width: 728px; padding-bottom: 20px; border-bottom: 1px solid #e0e0e0;">
+                <table id="wc-cart-progress-steps" border="0" width="100%" style="width: 100%; max-width: 928px; padding-bottom: 20px; border-bottom: 1px solid #e0e0e0;">
                     <thead>
                         <tr>
                             <th align="left" width="5%"><?php _e('Step', 'wc-cart-progress'); ?></th>
                             <th align="left" width="14%"><?php _e('Threshold €', 'wc-cart-progress'); ?></th>
-                            <th align="left" width="38%"></th>
-                            <th align="left" width="38%"></th>
+                            <th align="left" width="25%"></th>
+                            <th align="left" width="25%"></th>
+                            <th align="left" width="25%"></th>
                             <th align="right" width="5%"></th>
                         </tr>
                     </thead>
@@ -57,7 +58,8 @@ class WC_Cart_Progress_Settings {
                         // Optionally, display a default step to kick things off
                         $steps[] = ['threshold' => 59,
                         'label' => 'Free shipping',
-                        'image_url' => ''];
+                        'image_url' => '',
+                        'product_url' => ''];
 
                     }
 
@@ -69,6 +71,7 @@ class WC_Cart_Progress_Settings {
                             <td><input type="number" style="width:100%;" name="wc_cart_progress_settings[steps][<?php echo $index; ?>][threshold]" value="<?php echo esc_attr($step['threshold']); ?>" step="0.01" min="0" /></td>
                             <td><input type="text" style="width:100%;" name="wc_cart_progress_settings[steps][<?php echo $index; ?>][label]" value="<?php echo esc_attr($step['label']); ?>" placeholder="Step Label" /></td>
                             <td><input type="text" style="width:100%;" name="wc_cart_progress_settings[steps][<?php echo $index; ?>][image_url]" value="<?php echo esc_attr($step['image_url']); ?>" placeholder="Image URL" /></td>
+                            <td><input type="text" style="width:100%;" name="wc_cart_progress_settings[steps][<?php echo $index; ?>][product_url]" value="<?php echo esc_attr($step['product_url']); ?>" placeholder="Product URL" /></td>
                             <td align="right"><button type="button" class="remove-step"><span class="dashicons dashicons-no-alt"></span></button></td>
                         </tr>
                     <?php endforeach; ?>
@@ -98,7 +101,8 @@ class WC_Cart_Progress_Settings {
                 $sanitized_input['steps'][] = [
                     'threshold' => floatval($step['threshold']),
                     'label'     => sanitize_text_field($step['label']),
-                    'image_url' => sanitize_text_field($step['image_url'])
+                    'image_url' => sanitize_text_field($step['image_url']),
+                    'product_url' => sanitize_text_field($step['product_url'])
                 ];
             }
         }
