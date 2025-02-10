@@ -9,7 +9,7 @@
     width: 100%;
     max-width: 400px;
     margin:0 auto;
-    min-height:40px;
+    min-height:50px;
     position: relative;
 }
 
@@ -83,8 +83,8 @@
 }
 
 .wc-cart-progress .wc-cart-progress-items-wrapper .wc-cart-progress-item.active .wc-cart-progress-item-image-wrapper {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
 }
 .wc-cart-progress .wc-cart-progress-items-wrapper .wc-cart-progress-item.done .wc-cart-progress-item-image-wrapper {
     border-color: #0e9d5b;
@@ -96,8 +96,8 @@
 }
 
 .wc-cart-progress .wc-cart-progress-item .wc-cart-progress-item-image-wrapper {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     margin: auto;
     border-radius: 50%;
     border: 2px solid #d0eddb;
@@ -118,7 +118,7 @@
 .wc-cart-progress .wc-cart-progress-bar-wrapper {
     position: absolute;
     width:100%;
-    top:18px;
+    top:24px;
     left:0;
 }
 
@@ -161,7 +161,7 @@
     background-color: #d0eddb;
     color: #0e9d5b;
     text-align: center;
-    font-size: 11px;
+    font-size: 13px;
     padding: 0.5rem;
     margin-left:-20px;
     margin-right:-20px;
