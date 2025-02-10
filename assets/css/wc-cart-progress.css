@@ -156,11 +156,12 @@
 
 .wc-cart-progress-caret-marker-wrapper {
     background:none;
-    color:auto;
+    color:#d0eddb;
     border-radius:0;
     margin-bottom:0;
     width:20px;
     height:20px;
+    align-items:end;
 }
 
 .wc-cart-progress-caret-marker-wrapper.hidden {
@@ -172,9 +173,9 @@
 }
 
 .wc-cart-progress-caret-marker-wrapper .wc-cart-progress-caret-marker {
-    border-bottom: 4px dashed;
-    border-right: 4px solid transparent;
-    border-left: 4px solid transparent;
+    border-bottom: 7px dashed;
+    border-right: 7px solid transparent;
+    border-left: 7px solid transparent;
 }
 
 .wc-cart-progress-content-wrapper {
