@@ -137,7 +137,7 @@
     border-radius: 4px;
     transition: width 0.5s ease-in-out;
 }
-.wc-cart-progress-done-marker-wrapper {
+.wc-cart-progress-done-marker-wrapper, .wc-cart-progress-caret-marker-wrapper {
     display: none;
     justify-content: center;
     align-items: center;
@@ -150,13 +150,33 @@
     margin-bottom: -20px;
 }
 
-.wc-cart-progress-done-marker-wrapper.visible {
+.wc-cart-progress-done-marker-wrapper.visible, .wc-cart-progress-caret-marker-wrapper {
     display: flex;
+}
+
+.wc-cart-progress-caret-marker-wrapper {
+    background:none;
+    color:auto;
+    border-radius:0;
+    margin-bottom:0;
+    width:20px;
+    height:20px;
+}
+
+.wc-cart-progress-caret-marker-wrapper.hidden {
+    display: none;
 }
 
 .wc-cart-progress-done-marker-wrapper .wc-cart-progress-done-marker {
     margin-top: -7px;
 }
+
+.wc-cart-progress-caret-marker-wrapper .wc-cart-progress-caret-marker {
+    border-bottom: 4px dashed;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+
 .wc-cart-progress-content-wrapper {
     background-color: #d0eddb;
     color: #0e9d5b;

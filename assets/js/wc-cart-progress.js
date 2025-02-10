@@ -2,6 +2,7 @@ function initializeProgressBar($container, containerId, steps, cartSubtotal) {
     var $progressBar = $container.find('.wc-cart-progress-bar-fill');
     var $contentText = $container.find('.wc-cart-progress-content-text');
     var $doneMarker = $container.find('.wc-cart-progress-done-marker-wrapper');
+    var $caretMarker = $container.find('.wc-cart-progress-caret-marker-wrapper');
     var $itemsWrapper = $container.find('.wc-cart-progress-items-wrapper');
 
     function updateProgress(newSubtotal) {
@@ -11,6 +12,7 @@ function initializeProgressBar($container, containerId, steps, cartSubtotal) {
         
         $container.find('.wc-cart-progress-item').removeClass('visible active done');
         $doneMarker.removeClass('visible');
+        $caretMarker.removeClass('hidden');
         $itemsWrapper.removeClass('completed');
         $itemsWrapper.removeClass('single-step');
         
@@ -57,6 +59,7 @@ function initializeProgressBar($container, containerId, steps, cartSubtotal) {
             $contentText.text("Congratulations! You have earned all gifts!");
             $itemsWrapper.addClass('completed');
             $doneMarker.addClass('visible');
+            $caretMarker.addClass('hidden');
         } else if (steps.length === 1) {
             // Single step case - fill from 0 to 100%
             progress = (cartSubtotal / steps[0].threshold) * 100;
@@ -67,6 +70,7 @@ function initializeProgressBar($container, containerId, steps, cartSubtotal) {
                 $contentText.text("Congratulations! You have earned all gifts!");
                 $itemsWrapper.addClass('completed');
                 $doneMarker.addClass('visible');
+                $caretMarker.addClass('hidden');
             } else {
                 // Single step not completed yet
                 var remaining = steps[0].threshold - cartSubtotal;

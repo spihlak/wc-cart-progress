@@ -87,6 +87,11 @@ class WC_Cart_Progress_Bar {
                 </div>
             </div>
 
+            <div class="wc-cart-progress-caret-marker-wrapper">
+                <div class="wc-cart-progress-caret-marker">
+                </div>
+            </div>
+
             <div class="wc-cart-progress-done-marker-wrapper">
                 <div class="wc-cart-progress-done-marker">
                     <i class="fa-solid fa-check"></i>
