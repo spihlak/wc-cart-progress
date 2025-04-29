@@ -2,6 +2,22 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+function has_only_virtual_products() {
+    $cart = WC()->cart;
+    if ($cart->is_empty()) {
+        return false;
+    }
+
+    foreach ($cart->get_cart() as $cart_item) {
+        $product = $cart_item['data'];
+        if (!$product->is_virtual()) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
 wp_enqueue_style('wc-cart-progress-styles', plugins_url('assets/css/wc-cart-progress.css', dirname(__FILE__)));
 
 class WC_Cart_Progress_Bar {
@@ -37,7 +53,7 @@ class WC_Cart_Progress_Bar {
 
     public function get_cart_subtotal() {
         wp_send_json_success(array(
-            'subtotal' => WC()->cart->get_subtotal()
+            'subtotal' => WC()->cart->get_cart_contents_total()
         ));
     }
 
@@ -47,9 +63,14 @@ class WC_Cart_Progress_Bar {
             return ''; // Return empty string to show nothing
         }
 
+        // Check if cart has only virtual products
+        if (has_only_virtual_products()) {
+            return ''; // Return empty string to show nothing
+        }
+
         $options = get_option('wc_cart_progress_settings');
         $steps = isset($options['steps']) ? $options['steps'] : [];
-        $cart_subtotal = WC()->cart->get_subtotal();
+        $cart_subtotal = WC()->cart->get_cart_contents_total();
         $unique_id = uniqid($context . '-');
 
         ob_start();
@@ -94,7 +115,7 @@ class WC_Cart_Progress_Bar {
 
             <div class="wc-cart-progress-done-marker-wrapper">
                 <div class="wc-cart-progress-done-marker">
-                    <i class="fa-solid fa-check"></i>
+                    <i class="fa fa-solid fa-check"></i>
                 </div>
             </div>
 

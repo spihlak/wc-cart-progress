@@ -56,7 +56,7 @@ function initializeProgressBar($container, containerId, steps, cartSubtotal) {
         if (currentStepIndex === lastStepIndex) {
             // Last step is completed
             progress = 100;
-            $contentText.text("Congratulations! You have earned all gifts!");
+            $contentText.text("Palju õnne! Lisasime Sinu ostukorvi kõik kingitused!");
             $itemsWrapper.addClass('completed');
             $doneMarker.addClass('visible');
             $caretMarker.addClass('hidden');
@@ -67,14 +67,14 @@ function initializeProgressBar($container, containerId, steps, cartSubtotal) {
             
             if (progress >= 100) {
                 // Single step is completed
-                $contentText.text("Congratulations! You have earned all gifts!");
+                $contentText.text("Õnnitleme! Lisasime Sinu ostukorvi kõik kingitused!");
                 $itemsWrapper.addClass('completed');
                 $doneMarker.addClass('visible');
                 $caretMarker.addClass('hidden');
             } else {
                 // Single step not completed yet
                 var remaining = steps[0].threshold - cartSubtotal;
-                $contentText.text('Add €' + remaining.toFixed(2) + ' more to get ' + steps[0].label);
+                $contentText.text('Lisa veel ' + remaining.toFixed(2) + ' € eest tooteid ja kingime Sulle ' + steps[0].label);
             }
         } else if (activeStepIndex === lastStepIndex) {
             // Last step is active (multi-step case)
@@ -86,7 +86,7 @@ function initializeProgressBar($container, containerId, steps, cartSubtotal) {
             progress = baseProgress + (progressInRange / range) * 50;
             
             var remaining = steps[activeStepIndex].threshold - cartSubtotal;
-            $contentText.text('Add €' + remaining.toFixed(2) + ' more to get ' + steps[activeStepIndex].label);
+            $contentText.text('Lisa veel ' + remaining.toFixed(2) + ' € eest tooteid ja kingime Sulle ' + steps[activeStepIndex].label);
         } else {
             // Any other step (multi-step case)
             if (currentStepIndex === -1) {
@@ -102,7 +102,7 @@ function initializeProgressBar($container, containerId, steps, cartSubtotal) {
             }
             
             var remaining = steps[activeStepIndex].threshold - cartSubtotal;
-            $contentText.text('Add €' + remaining.toFixed(2) + ' more to get ' + steps[activeStepIndex].label);
+            $contentText.text('Lisa veel ' + remaining.toFixed(2) + ' € eest tooteid ja kingime Sulle ' + steps[activeStepIndex].label);
         }
         
         $progressBar.css('width', Math.min(progress, 100) + '%');

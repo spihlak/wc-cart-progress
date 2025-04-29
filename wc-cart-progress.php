@@ -23,5 +23,4 @@ function wc_cart_progress_init() {
 
 add_action('plugins_loaded', 'wc_cart_progress_init');
 
-
 ?>
